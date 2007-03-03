@@ -13,16 +13,13 @@ int main(void)
   int result;
   /* open /dev/dsp for write only */
   out = open("/dev/dsp",O_RDWR);
-  printf("out: %d\n", out);
+  if( out < 0) perror("open (/dev/dsp):");
   /* now we use ioctl to set audio quality */
   c=16; /* 16 bits */
   result =  ioctl(out,SOUND_PCM_WRITE_BITS,&c);
-  printf("result: %d\n",result);
   c=1;  /* 1 channel */
   result = ioctl(out,SOUND_PCM_WRITE_CHANNELS,&c);
-  printf("result: %d\n",result);
   c=44100; /* 44.1KHz */
-  result = ioctl(out,SOUND_PCM_WRITE_RATE,&c);
   printf("result: %d\n",result);
   /* this generates the wavetable of our sines
    * it's standard trig, so play around with
@@ -41,7 +38,6 @@ int main(void)
   for (c=0; c<5; c++)
   {
     result = write(out, wave, sizeof(wave) );
-    printf("result: %d\n",result);
   }
 
   close(out); /* close /dev/dsp ! */
