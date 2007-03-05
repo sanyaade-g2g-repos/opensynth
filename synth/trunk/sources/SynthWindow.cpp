@@ -78,6 +78,38 @@ void SynthWindow::keyPressEvent( QKeyEvent *event )
 		if( !currentNotes.contains("E,4,0") )
 			currentNotes["E,4,0"] = new Note('E',4,0);
 	}
+	if( key == Qt::Key_N ) {
+		cout << " F ";
+		got_one = true;
+		if( !currentNotes.contains("F,4,0") )
+			currentNotes["F,4,0"] = new Note('F',4,0);
+	}
+	if( key == Qt::Key_J ) {
+		cout << " F# ";
+		got_one = true;
+		if( !currentNotes.contains("F,4,1") )
+			currentNotes["F,4,1"] = new Note('F',4,1);
+	}
+	if( key == Qt::Key_M ) {
+		cout << " G ";
+		got_one = true;
+		if( !currentNotes.contains("G,4,0") )
+			currentNotes["G,4,0"] = new Note('G',4,0);
+	}
+	if( key == Qt::Key_K ) {
+		cout << " G# ";
+		got_one = true;
+		if( !currentNotes.contains("G,4,1") )
+			currentNotes["G,4,1"] = new Note('G',4,1);
+	}
+	if( key == Qt::Key_Comma ) {
+		cout << " A ";
+		got_one = true;
+		if( !currentNotes.contains("A,4,0") )
+			currentNotes["A,4,0"] = new Note('A',4,0);
+	}
+	
+
 	cout.flush();
 	if( !got_one )
 		QWidget::keyPressEvent(event);
@@ -150,6 +182,31 @@ void SynthWindow::keyReleaseEvent( QKeyEvent *event )
 		cout << " E ";
 		got_one = true;
 		currentNotes.remove("E,4,0");
+	}
+	if( key == Qt::Key_N ) {
+		cout << " F ";
+		got_one = true;
+		currentNotes.remove("F,4,0");
+	}
+	if( key == Qt::Key_J ) {
+		cout << " F# ";
+		got_one = true;
+		currentNotes.remove("F,4,1");
+	}
+	if( key == Qt::Key_M ) {
+		cout << " G ";
+		got_one = true;
+		currentNotes.remove("G,4,0");
+	}
+	if( key == Qt::Key_K ) {
+		cout << " G# ";
+		got_one = true;
+		currentNotes.remove("G,4,1");
+	}
+	if( key == Qt::Key_Comma ) {
+		cout << " A ";
+		got_one = true;
+		currentNotes.remove("A,4,0");
 	}
 	cout.flush();
 	if( !got_one )
