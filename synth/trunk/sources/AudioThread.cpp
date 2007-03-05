@@ -9,7 +9,7 @@
 using std::cout;
 using std::endl;
 
-#define FADEBUF 5
+#define FADEBUF -1
 
 AudioThread::AudioThread(QObject *parent)
 	: QThread(parent)
@@ -52,18 +52,8 @@ void AudioThread::run()
 		else {
 			for( c = 0; c < size; ++c )
 			{
-				if( c <= FADEBUF ) {
-					temp = (ab[c] * c / FADEBUF);
-		//			cout << "fadein: ab[c]: " << ab[c] << " temp: " << temp << endl;
-					write(out, &temp, sizeof(short));
-				} else if ( (size - c - 1) <= FADEBUF ) {
-					temp = (ab[c] * (size - c - 1) / FADEBUF);
-		//			cout << "fadeout: ab[c]: " << ab[c] << " temp: " << temp << endl;
-					write(out, &temp, sizeof(short));
-				} else {
-	//				temp = ( ab[(c-1)%size] + ab[c%size] + ab[(c+1)%size] ) / 3;
-					result = write(out, ab+c, sizeof(short));
-				}
+				temp = ab[c]/SINT_MAX;
+				result = write(out, &temp, sizeof(short));
 			}
 //			cout << "result: " << result << endl;
 		}

@@ -115,13 +115,13 @@ void SynthWindow::keyPressEvent( QKeyEvent *event )
 		QWidget::keyPressEvent(event);
 	else {
 		if( !currentNotes.empty() ) {
-			memset(audiobuffer, '\0', sizeof(short)*AUDBUFLEN);
+	//		memset(audiobuffer, '\0', sizeof(short)*AUDBUFLEN);
 			QHashIterator<QString, Note *> j(currentNotes);
 //			qDebug() << "audiobuffer in window: " << audiobuffer << "with length: " << AUDBUFLEN << endl;
 			while( j.hasNext() ) {
 				j.next();
 				for( int i = 0; i < AUDBUFLEN; i++ ){
-					audiobuffer[i] += (short)(8000*sin( j.value()->getFreq() * 2 * M_PI * i / 44100 ));
+					audiobuffer[i] += (8000*sin( (short)(j.value()->getFreq()) * 2 * M_PI * i / 44100 ));
 				}
 //				qDebug() << "added " << j.key() << " to audiobuffer (with freq:" << j.value()->getFreq() << ")" << endl;
 				*playflag = true;
@@ -225,7 +225,7 @@ void SynthWindow::keyReleaseEvent( QKeyEvent *event )
 			while( j.hasNext() ) {
 				j.next();
 				for( int i = 0; i < AUDBUFLEN; i++ ){
-					audiobuffer[i] += (short)(8000*sin( j.value()->getFreq() * 2 * M_PI * i / 44100 ));
+					audiobuffer[i] += (8000*sin( (short)(j.value()->getFreq()) * 2 * M_PI * i / 44100 ));
 				}
 		//		qDebug() << "added " << j.key() << " to audiobuffer (with freq:" << j.value()->getFreq() << ")" << endl;
 				*playflag = true;
