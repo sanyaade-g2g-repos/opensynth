@@ -114,16 +114,21 @@ void SynthWindow::keyPressEvent( QKeyEvent *event )
 	if( !got_one )
 		QWidget::keyPressEvent(event);
 	else {
-		memset(audiobuffer, '\0', sizeof(short)*AUDBUFLEN);
-		QHashIterator<QString, Note *> j(currentNotes);
-		qDebug() << "audiobuffer in window: " << audiobuffer << "with length: " << AUDBUFLEN << endl;
-		while( j.hasNext() ) {
-			j.next();
-			for( int i = 0; i < AUDBUFLEN; i++ ){
-				audiobuffer[i] += (short)(8000*sin( j.value()->getFreq() * 2 * M_PI * i / 44100 ));
+		if( !currentNotes.empty() ) {
+			memset(audiobuffer, '\0', sizeof(short)*AUDBUFLEN);
+			QHashIterator<QString, Note *> j(currentNotes);
+//			qDebug() << "audiobuffer in window: " << audiobuffer << "with length: " << AUDBUFLEN << endl;
+			while( j.hasNext() ) {
+				j.next();
+				for( int i = 0; i < AUDBUFLEN; i++ ){
+					audiobuffer[i] += (short)(8000*sin( j.value()->getFreq() * 2 * M_PI * i / 44100 ));
+				}
+//				qDebug() << "added " << j.key() << " to audiobuffer (with freq:" << j.value()->getFreq() << ")" << endl;
+				*playflag = true;
 			}
-			qDebug() << "added " << j.key() << " to audiobuffer (with freq:" << j.value()->getFreq() << ")" << endl;
-			*playflag = true;
+		} else {
+			*playflag = false;
+			memset(audiobuffer, '\0', sizeof(short)*AUDBUFLEN);
 		}
 	}
 
@@ -136,7 +141,7 @@ void SynthWindow::keyReleaseEvent( QKeyEvent *event )
 	bool got_one = false;
 
 	if( !event->isAutoRepeat() ) {
-		cout << "key release" << endl;
+	//	cout << "key release" << endl;
 
 	if( key ==  Qt::Key_A ) {
 		cout << " Ab ";
@@ -212,17 +217,22 @@ void SynthWindow::keyReleaseEvent( QKeyEvent *event )
 	if( !got_one )
 		QWidget::keyPressEvent(event);
 	else {
+		if( !currentNotes.empty()) {
 
-		memset(audiobuffer, '\0', sizeof(short)*AUDBUFLEN);
-		QHashIterator<QString, Note *> j(currentNotes);
-	//	qDebug() << "audiobuffer in window: " << audiobuffer << "with length: " << AUDBUFLEN << endl;
-		while( j.hasNext() ) {
-			j.next();
-			for( int i = 0; i < AUDBUFLEN; i++ ){
-				audiobuffer[i] += (short)(8000*sin( j.value()->getFreq() * 2 * M_PI * i / 44100 ));
+			memset(audiobuffer, '\0', sizeof(short)*AUDBUFLEN);
+			QHashIterator<QString, Note *> j(currentNotes);
+		//	qDebug() << "audiobuffer in window: " << audiobuffer << "with length: " << AUDBUFLEN << endl;
+			while( j.hasNext() ) {
+				j.next();
+				for( int i = 0; i < AUDBUFLEN; i++ ){
+					audiobuffer[i] += (short)(8000*sin( j.value()->getFreq() * 2 * M_PI * i / 44100 ));
+				}
+		//		qDebug() << "added " << j.key() << " to audiobuffer (with freq:" << j.value()->getFreq() << ")" << endl;
+				*playflag = true;
 			}
-		//	qDebug() << "added " << j.key() << " to audiobuffer (with freq:" << j.value()->getFreq() << ")" << endl;
-			*playflag = true;
+		} else {
+			*playflag = false;
+			memset(audiobuffer, '\0', sizeof(short)*AUDBUFLEN);
 		}
 
 	}

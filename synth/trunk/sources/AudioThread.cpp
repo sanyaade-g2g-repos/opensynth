@@ -9,6 +9,8 @@
 using std::cout;
 using std::endl;
 
+#define FADEBUF 5
+
 AudioThread::AudioThread(QObject *parent)
 	: QThread(parent)
 {
@@ -25,6 +27,7 @@ void AudioThread::setBuffer(short * ptr, int s, bool * pf)
 void AudioThread::run()
 {
 	int c,out,result;
+	short temp;
 	qDebug() << "starting audio thread";
 	
   	out = open("/dev/dsp",O_RDWR);
@@ -37,17 +40,31 @@ void AudioThread::run()
 	c=44100; /* 44.1KHz */
 	ioctl(out,SOUND_PCM_WRITE_RATE,&c);
 
-	cout << "buffer size: " << size << endl;
-	cout << "buffer location: " << ab << endl;
+//	cout << "buffer size: " << size << endl;
+//	cout << "buffer location: " << ab << endl;
 
-	qDebug() << "about to start rendering...";
+//	qDebug() << "about to start rendering...";
 	memset(ab, '\0', sizeof(unsigned short int)*size);
 	while(1)
 	{
 		if( !(*playflag) )
 			usleep(100);
 		else {
-		       result = write(out, ab, sizeof(short)*size);
+			for( c = 0; c < size; ++c )
+			{
+				if( c <= FADEBUF ) {
+					temp = (ab[c] * c / FADEBUF);
+		//			cout << "fadein: ab[c]: " << ab[c] << " temp: " << temp << endl;
+					write(out, &temp, sizeof(short));
+				} else if ( (size - c - 1) <= FADEBUF ) {
+					temp = (ab[c] * (size - c - 1) / FADEBUF);
+		//			cout << "fadeout: ab[c]: " << ab[c] << " temp: " << temp << endl;
+					write(out, &temp, sizeof(short));
+				} else {
+	//				temp = ( ab[(c-1)%size] + ab[c%size] + ab[(c+1)%size] ) / 3;
+					result = write(out, ab+c, sizeof(short));
+				}
+			}
 //			cout << "result: " << result << endl;
 		}
 	}
