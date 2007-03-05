@@ -9,9 +9,9 @@ class AudioThread : public QThread
 	public:
 		AudioThread(QObject *parent);
 		void run();
-		void setBuffer(unsigned short int *, int, bool *);
+		void setBuffer(short *, int, bool *);
 	private:
-		unsigned short int * ab;
+		short * ab;
 		int size;
 		bool * playflag;
 };

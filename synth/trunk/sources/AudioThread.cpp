@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <linux/soundcard.h>
 #include <iostream>
+#include <cmath>
 using std::cout;
 using std::endl;
 
@@ -13,7 +14,7 @@ AudioThread::AudioThread(QObject *parent)
 {
 }
 
-void AudioThread::setBuffer(unsigned short int * ptr, int s, bool * pf)
+void AudioThread::setBuffer(short * ptr, int s, bool * pf)
 {
 	ab = ptr;
 	size = s;
@@ -34,6 +35,7 @@ void AudioThread::run()
 	c=1;  /* 1 channel */
 	ioctl(out,SOUND_PCM_WRITE_CHANNELS,&c);
 	c=44100; /* 44.1KHz */
+	ioctl(out,SOUND_PCM_WRITE_RATE,&c);
 
 	cout << "buffer size: " << size << endl;
 	cout << "buffer location: " << ab << endl;
@@ -45,18 +47,11 @@ void AudioThread::run()
 		if( !(*playflag) )
 			usleep(100);
 		else {
-		       cout << "about to start playing..." << endl;	
-			result = write(out, ab, sizeof(unsigned short int)*size);
-			cout << "result: " << result << endl;
-		//	for( int i = 0; i < size; ++i )
-		//		write(out, (char*)(audiobuffer+i), sizeof(audiobuffer));
-				//cout << audiobuffer[i] << " ";
+		       result = write(out, ab, sizeof(short)*size);
+//			cout << "result: " << result << endl;
 		}
 	}
-//	while(1){
-//	for( int i = 0; i < size; ++i )
-//		cout << audiobuffer[i] << " ";
-//	}
+
 	close(out);
 	exit();
 }

@@ -20,11 +20,11 @@ class SynthWindow : public QWidget
 
 	protected:
 		void keyPressEvent( QKeyEvent *event );
-//		void keyReleaseEvent( QKeyEvent *event );
+		void keyReleaseEvent( QKeyEvent *event );
 
 	private:
 		QHash<QString, Note *> currentNotes;
-		unsigned short int audiobuffer[AUDBUFLEN];
+		short audiobuffer[AUDBUFLEN];
 		AudioThread * playthread;
 		bool * playflag;
 };
