@@ -45,18 +45,15 @@ void AudioThread::run()
 
 //	qDebug() << "about to start rendering...";
 	memset(ab, '\0', sizeof(unsigned short int)*size);
+	c = 0;
 	while(1)
 	{
-		if( !(*playflag) )
-			usleep(100);
-		else {
-			for( c = 0; c < size; ++c )
-			{
-				temp = ab[c]/SINT_MAX;
-				result = write(out, &temp, sizeof(short));
-			}
-//			cout << "result: " << result << endl;
-		}
+		if( c > (size-1)) c = 0;
+		if( (*playflag) )
+			write(out, ab+c, sizeof(short));
+		else
+			usleep(10);
+		++c;
 	}
 
 	close(out);

@@ -121,7 +121,7 @@ void SynthWindow::keyPressEvent( QKeyEvent *event )
 			while( j.hasNext() ) {
 				j.next();
 				for( int i = 0; i < AUDBUFLEN; i++ ){
-					audiobuffer[i] += (8000*sin( (short)(j.value()->getFreq()) * 2 * M_PI * i / 44100 ));
+					audiobuffer[i] += (2000*sin( (short)(j.value()->getFreq()) * 2 * M_PI * i / 44100 ));
 				}
 //				qDebug() << "added " << j.key() << " to audiobuffer (with freq:" << j.value()->getFreq() << ")" << endl;
 				*playflag = true;
@@ -225,7 +225,7 @@ void SynthWindow::keyReleaseEvent( QKeyEvent *event )
 			while( j.hasNext() ) {
 				j.next();
 				for( int i = 0; i < AUDBUFLEN; i++ ){
-					audiobuffer[i] += (8000*sin( (short)(j.value()->getFreq()) * 2 * M_PI * i / 44100 ));
+					audiobuffer[i] += (2000*sin( (short)(j.value()->getFreq()) * 2 * M_PI * i / 44100 ));
 				}
 		//		qDebug() << "added " << j.key() << " to audiobuffer (with freq:" << j.value()->getFreq() << ")" << endl;
 				*playflag = true;
