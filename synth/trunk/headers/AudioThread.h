@@ -9,12 +9,13 @@ class AudioThread : public QThread
 {
 	Q_OBJECT
 	public:
-		AudioThread(QObject *parent);
+		AudioThread(QObject *parent, QHash<QString, WaveForm *> & waveforms);
 		void run();
-		void setBuffer(QHash<QString, WaveForm *> * wf_ptr, int s, bool * play);
+		void setBuffer( int s, bool * play);
 	private:
 //		short * ab;
-		QHash<QString, WaveForm *> * wf_ptr;
+		QMutex mutex;
+		QHash<QString, WaveForm *> & wf;
 		int size;
 		bool * playflag;
 };

@@ -14,15 +14,13 @@ using std::endl;
 
 #define FADEBUF -1
 
-AudioThread::AudioThread(QObject *parent)
-	: QThread(parent)
+AudioThread::AudioThread(QObject *parent, QHash<QString, WaveForm *> & waveforms)
+	: QThread(parent), wf(waveforms)
 {
 }
 
-void AudioThread::setBuffer(QHash<QString, WaveForm *> * wf_p, int s, bool * pf)
+void AudioThread::setBuffer( int s, bool * pf)
 {
-//	ab = ptr;
-	wf_ptr = wf_p;
 	size = s;
 	playflag = pf;
 	*playflag = false;
@@ -32,6 +30,7 @@ void AudioThread::run()
 {
 	int c,out;
 	short temp;
+	short fake = 0;
 	qDebug() << "starting audio thread";
 	
   	out = open("/dev/dsp",O_RDWR);
@@ -48,36 +47,29 @@ void AudioThread::run()
 //	cout << "buffer location: " << ab << endl;
 
 //	qDebug() << "about to start rendering...";
-//	memset(ab, '\0', sizeof(unsigned short int)*size);
-//	QHashIterator<QString, WaveForm *> j((*wf_ptr));
 	c = 0;
-	while(1)
+	int i = -1;
+	QHash<QString, WaveForm *>::const_iterator j;
+	while(++i != -500)
 	{
+		if( i >= size ) { i = 0; }
 		if( (*playflag) )
 		{
-//			qDebug() << "playflag set";
-			for( int i = 0; i < size; ++i)
-			{
-//				qDebug() << wf_ptr->size() << " notes playing";
-				if( wf_ptr->size() ) {
-					temp = 0;
-					foreach (QString str, wf_ptr->keys() ) {
-//						qDebug() << str;
-						temp += (short)(2000*(sin(wf_ptr->value(str)->frequency * 2 * M_PI * i /44100)));
-					}
-					write(out, &temp, sizeof(short));
+			if( wf.size() ) {
+				temp = 0;
+				mutex.lock();
+				for (j = wf.begin(); j != wf.end(); ++j)
+				{
+//					c = j.value()->size;
+					temp += (short)(j.value()->sample[i%(j.value()->size)]);
 				}
-//				temp = 0;
-//				while( j.hasNext() ) {
-//					j.next();
-//					qDebug() << "adding WaveForm with frequency " << j.value()->getFreq();
-//					temp += (short)(2000*(sin(j.value()->getFreq() * 2 * M_PI * i /44100)));
-//				}
-//				write(out, &temp, sizeof(short));
+				mutex.unlock();
+				write(out, &temp, sizeof(short));
 			}
 		}
 		else {
-			usleep(10);
+//			usleep(1);
+			write(out, &fake, sizeof(short));
 		}
 	}
 
