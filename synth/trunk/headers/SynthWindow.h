@@ -10,6 +10,7 @@
 
 #include "Note.h"
 #include "AudioThread.h"
+#include "AudioBuffer.h"
 
 class SynthWindow : public QWidget
 {
@@ -26,6 +27,7 @@ class SynthWindow : public QWidget
 		QHash<QString, Note *> currentNotes;
 		short audiobuffer[AUDBUFLEN];
 		AudioThread * playthread;
+		AudioBuffer ab;
 		bool * playflag;
 };
 

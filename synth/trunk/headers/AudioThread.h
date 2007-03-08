@@ -2,6 +2,8 @@
 #define AUDIOTHREAD_H
 
 #include <QtGui>
+#include <QHash>
+#include <WaveForm.h>
 
 class AudioThread : public QThread
 {
@@ -9,9 +11,10 @@ class AudioThread : public QThread
 	public:
 		AudioThread(QObject *parent);
 		void run();
-		void setBuffer(short * ab, int size, bool * play);
+		void setBuffer(QHash<QString, WaveForm *> * wf_ptr, int s, bool * play);
 	private:
-		short * ab;
+//		short * ab;
+		QHash<QString, WaveForm *> * wf_ptr;
 		int size;
 		bool * playflag;
 };

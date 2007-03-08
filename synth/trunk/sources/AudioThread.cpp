@@ -1,4 +1,7 @@
 #include "AudioThread.h"
+#include "WaveForm.h"
+#include <QHash>
+#include <QString>
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
@@ -16,9 +19,10 @@ AudioThread::AudioThread(QObject *parent)
 {
 }
 
-void AudioThread::setBuffer(short * ptr, int s, bool * pf)
+void AudioThread::setBuffer(QHash<QString, WaveForm *> * wf_p, int s, bool * pf)
 {
-	ab = ptr;
+//	ab = ptr;
+	wf_ptr = wf_p;
 	size = s;
 	playflag = pf;
 	*playflag = false;
@@ -26,7 +30,7 @@ void AudioThread::setBuffer(short * ptr, int s, bool * pf)
 
 void AudioThread::run()
 {
-	int c,out,result;
+	int c,out;
 	short temp;
 	qDebug() << "starting audio thread";
 	
@@ -44,16 +48,37 @@ void AudioThread::run()
 //	cout << "buffer location: " << ab << endl;
 
 //	qDebug() << "about to start rendering...";
-	memset(ab, '\0', sizeof(unsigned short int)*size);
+//	memset(ab, '\0', sizeof(unsigned short int)*size);
+//	QHashIterator<QString, WaveForm *> j((*wf_ptr));
 	c = 0;
 	while(1)
 	{
-		if( c > (size-1)) c = 0;
 		if( (*playflag) )
-			write(out, ab+c, sizeof(short));
-		else
+		{
+//			qDebug() << "playflag set";
+			for( int i = 0; i < size; ++i)
+			{
+//				qDebug() << wf_ptr->size() << " notes playing";
+				if( wf_ptr->size() ) {
+					temp = 0;
+					foreach (QString str, wf_ptr->keys() ) {
+//						qDebug() << str;
+						temp += (short)(2000*(sin(wf_ptr->value(str)->frequency * 2 * M_PI * i /44100)));
+					}
+					write(out, &temp, sizeof(short));
+				}
+//				temp = 0;
+//				while( j.hasNext() ) {
+//					j.next();
+//					qDebug() << "adding WaveForm with frequency " << j.value()->getFreq();
+//					temp += (short)(2000*(sin(j.value()->getFreq() * 2 * M_PI * i /44100)));
+//				}
+//				write(out, &temp, sizeof(short));
+			}
+		}
+		else {
 			usleep(10);
-		++c;
+		}
 	}
 
 	close(out);
