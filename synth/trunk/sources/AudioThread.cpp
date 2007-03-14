@@ -50,22 +50,22 @@ void AudioThread::run()
 	c = 0;
 	int i = -1;
 	QHash<QString, WaveForm *>::const_iterator j;
-	while(++i != -500)
+	while(1)
 	{
-		if( i >= size ) { i = 0; }
 		if( (*playflag) )
 		{
-			if( wf.size() ) {
+		//	if( wf.size() ) {
 				temp = 0;
 				mutex.lock();
 				for (j = wf.begin(); j != wf.end(); ++j)
 				{
-//					c = j.value()->size;
-					temp += (short)(j.value()->sample[i%(j.value()->size)]);
+//					c = j.value()->index;
+					temp += (short)(j.value()->sample[j.value()->getAndIncrementIndex()]);
+//					j.value()->incrementIndex();
 				}
 				mutex.unlock();
 				write(out, &temp, sizeof(short));
-			}
+		//	}
 		}
 		else {
 //			usleep(1);
