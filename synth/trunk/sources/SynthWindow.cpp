@@ -6,7 +6,6 @@
 using namespace std;
 
 #include "SynthWindow.h"
-#include "Note.h"
 #include "AudioThread.h"
 #include "AudioBuffer.h"
 
@@ -14,10 +13,6 @@ float freq(char pitch, int octave, int alter);
 
 SynthWindow::SynthWindow()
 {
-	playflag = new bool;
-//	playthread = new AudioThread(this);
-//	playthread->setBuffer(audiobuffer, AUDBUFLEN, playflag);
-//	playthread->start();
 }
 
 void SynthWindow::keyPressEvent( QKeyEvent *event )

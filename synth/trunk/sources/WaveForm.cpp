@@ -19,7 +19,7 @@ WaveForm::WaveForm(QString n, int f)
 }
 
 WaveForm::WaveForm(QString n)
-	:size(0), frequency(0), index(0)
+	:size(0), index(0), frequency(0)
 {
 	name = n;
 	sample = new double[1]; //just so it can be deleted later

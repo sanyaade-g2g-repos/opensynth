@@ -8,7 +8,6 @@
 #include <QHash>
 #include <QString>
 
-#include "Note.h"
 #include "AudioThread.h"
 #include "AudioBuffer.h"
 
@@ -24,11 +23,7 @@ class SynthWindow : public QWidget
 		void keyReleaseEvent( QKeyEvent *event );
 
 	private:
-		QHash<QString, Note *> currentNotes;
-		short audiobuffer[AUDBUFLEN];
-		AudioThread * playthread;
 		AudioBuffer ab;
-		bool * playflag;
 };
 
 #endif
