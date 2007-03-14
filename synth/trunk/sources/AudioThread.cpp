@@ -52,8 +52,8 @@ void AudioThread::run()
 	QHash<QString, WaveForm *>::const_iterator j;
 	while(1)
 	{
-		if( (*playflag) )
-		{
+//		if( (*playflag) )
+//		{
 		//	if( wf.size() ) {
 				temp = 0;
 				mutex.lock();
@@ -66,11 +66,11 @@ void AudioThread::run()
 				mutex.unlock();
 				write(out, &temp, sizeof(short));
 		//	}
-		}
-		else {
+//		}
+//		else {
 //			usleep(1);
-			write(out, &fake, sizeof(short));
-		}
+//			write(out, &fake, sizeof(short));
+//		}
 	}
 
 	close(out);
