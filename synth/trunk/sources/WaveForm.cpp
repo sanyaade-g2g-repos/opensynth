@@ -14,7 +14,8 @@ WaveForm::WaveForm(QString n, int f)
 	
 	for(int i = 0; i < size; ++i)
 	{
-		sample[i] = 2000 * sin(frequency * 2 * M_PI * i / 44100);
+//		sample[i] = 2000 * sin(frequency * 2 * M_PI * i / 44100); //sine wave
+		sample[i] = 2000 * ( (i<(size/2)?1:(-1)) ); //square wave
 	}
 }
 
