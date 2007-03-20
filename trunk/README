@@ -1,0 +1,15 @@
+To compile:
+
+   %qmake -project
+   %qmake
+   %make
+
+To run:
+
+   %./trunk
+
+Usage:
+
+    It takes no commandline options beyond what any qt program does.
+    The notes are played by pressing keys A-K and Z-, on the keyboard.
+
