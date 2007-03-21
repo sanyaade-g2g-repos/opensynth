@@ -5,6 +5,9 @@
 
 OpenSynth is the student project of S. L. Banina, esq.  It will hopefully be an at least semi-playable virtual analog synthesizer.  It is written in Qt 4.2 and for the Linux platform.  
 
+Other Links:
+  * OpenSynthDevelopment
+
 
 == Features ==
 
@@ -24,5 +27,6 @@ OpenSynth is the student project of S. L. Banina, esq.  It will hopefully be an 
   * Software Provided for Educational Purposes
   * No Support Provided
   * Under the GPL 2.0
+
 
 
