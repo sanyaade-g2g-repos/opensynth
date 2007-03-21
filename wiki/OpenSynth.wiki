@@ -27,5 +27,3 @@ OpenSynth is the student project of S. L. Banina, esq.  It will hopefully be an 
   * Software Provided for Educational Purposes
   * No Support Provided
   * Under the GPL 2.0
-
-
