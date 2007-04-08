@@ -4,7 +4,7 @@ using namespace std;
 #include <QString>
 #include "WaveForm.h"
 
-WaveForm::WaveForm(QString n, int f)
+WaveForm::WaveForm(QString n, int f, wavetype wt)
 {
 	name = n;
 	frequency = f;
@@ -14,8 +14,20 @@ WaveForm::WaveForm(QString n, int f)
 	
 	for(int i = 0; i < size; ++i)
 	{
-//		sample[i] = 2000 * sin(frequency * 2 * M_PI * i / 44100); //sine wave
-		sample[i] = 2000 * ( (i<(size/2)?1:(-1)) ); //square wave
+		if( i == 0 ) { sample[i] = 0; continue; }
+
+		if( wt == SIN ) {
+			sample[i] = sin(frequency * 2 * M_PI * i / 44100); //sine wave
+		} else if( wt == SQR ) {
+			sample[i] = ( (i<(size/2)?1:(-1)) ); //square wave
+		} else if( wt == TRI ) {
+			if( (i < size/4) || (i > 3*size/4) )
+				sample[i] = sample[i-1] + 2.0/size;
+			else
+				sample[i] = sample[i-1] - 2.0/size;
+		}
+
+		sample[i] *= 2000;
 	}
 }
 
