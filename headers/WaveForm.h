@@ -3,12 +3,16 @@
 
 #include <QString>
 
+enum wavetype {
+	SIN, SQR, TRI
+};
+
 class WaveForm
 {
 	friend class AudioThread;
 	friend class AudioBuffer;
 	public:
-		WaveForm(QString n, int f);
+		WaveForm(QString n, int f, wavetype);
 		WaveForm(QString n);
 		~WaveForm();
 
@@ -20,6 +24,7 @@ class WaveForm
 		int index;
 		int frequency;
 		QString name;
+		wavetype wt;
 };
 
 #endif
