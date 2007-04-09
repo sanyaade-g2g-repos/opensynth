@@ -13,25 +13,31 @@ float freq(char pitch, int octave, int alter);
 
 SynthWindow::SynthWindow()
 {
+	wt = SIN;
+
 	wavelayout = new QVBoxLayout;
 	sinebutton = new QRadioButton("&Sine Wave", this);
 	squarebutton = new QRadioButton("S&quare Wave", this);
 	trianglebutton = new QRadioButton("&Triangle Wave", this);
+	sawbutton = new QRadioButton("Sa&w Wave", this);
 	
 	connect(sinebutton, SIGNAL(clicked()), this, SLOT(setSineWave()));
 	connect(squarebutton, SIGNAL(clicked()), this, SLOT(setSquareWave()));
 	connect(trianglebutton, SIGNAL(clicked()), this, SLOT(setTriangleWave()));
+	connect(sawbutton, SIGNAL(clicked()), this, SLOT(setSawWave()));
 
 
 	wavelayout->addWidget(sinebutton);
 	wavelayout->addWidget(squarebutton);
 	wavelayout->addWidget(trianglebutton);
+	wavelayout->addWidget(sawbutton);
 	setLayout(wavelayout);
 }
 
 void SynthWindow::setSineWave() { wt = SIN; }
 void SynthWindow::setSquareWave() { wt = SQR; }
 void SynthWindow::setTriangleWave() { wt = TRI; }
+void SynthWindow::setSawWave() { wt = SAW; }
 
 void SynthWindow::keyPressEvent( QKeyEvent *event )
 {

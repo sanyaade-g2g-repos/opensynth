@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 using namespace std;
 
 #include <QString>
@@ -9,6 +10,7 @@ WaveForm::WaveForm(QString n, int f, wavetype wt)
 	name = n;
 	frequency = f;
 	size = 44100/frequency;
+	dsize = (double)size;
 	sample = new double[size];
 	index = 0;
 	
@@ -21,14 +23,15 @@ WaveForm::WaveForm(QString n, int f, wavetype wt)
 		} else if( wt == SQR ) {
 			sample[i] = ( (i<(size/2)?1:(-1)) ); //square wave
 		} else if( wt == TRI ) {
-			if( (i < size/4) || (i > 3*size/4) )
-				sample[i] = sample[i-1] + 2.0/size;
-			else
-				sample[i] = sample[i-1] - 2.0/size;
+			sample[i] = 4*abs(round(i/dsize) - i/dsize ) -1;
+		} else if( wt == SAW ) {
+			sample[i] = 2 * (i/dsize - floor(i/dsize + 0.5));
 		}
 
+//		cout << sample[i] << " ";
 		sample[i] *= 2000;
 	}
+//	cout << endl << endl;
 }
 
 WaveForm::WaveForm(QString n)
