@@ -116,6 +116,22 @@ void SynthWindow::keyPressEvent( QKeyEvent *event )
 //		cout << " A ";
 		ab.add(new WaveForm("A,4,0", (int)(freq('A',4,0)), wt));
 		break;
+
+		case Qt::Key_L:
+		ab.add(new WaveForm("A,4,1", (int)(freq('A',4,1)), wt));
+		break;
+
+		case Qt::Key_Period:
+		ab.add(new WaveForm("B,4,0", (int)(freq('B',4,0)), wt));
+		break;
+
+		case Qt::Key_Slash:
+		ab.add(new WaveForm("C,5,0", (int)(freq('C',5,0)), wt));
+		break;
+
+		case Qt::Key_Apostrophe:
+		ab.add(new WaveForm("C,5,1", (int)(freq('C',5,1)), wt));
+		break;
 		
 		default:
 		QWidget::keyPressEvent(event);
@@ -203,6 +219,22 @@ void SynthWindow::keyReleaseEvent( QKeyEvent *event )
 		case Qt::Key_Comma:
 //		cout << " A ";
 		ab.remove("A,4,0");
+		break;
+
+		case Qt::Key_L:
+		ab.remove("A,4,1");
+		break;
+
+		case Qt::Key_Period:
+		ab.remove("B,4,0");
+		break;
+
+		case Qt::Key_Slash:
+		ab.remove("C,5,0");
+		break;
+
+		case Qt::Key_Apostrophe:
+		ab.remove("C,5,1");
 		break;
 
 		default:
