@@ -4,7 +4,7 @@
 #include <QString>
 
 enum wavetype {
-	SIN, SQR, TRI
+	SIN, SQR, TRI, SAW
 };
 
 class WaveForm
@@ -21,6 +21,7 @@ class WaveForm
 	private:
 		double * sample;
 		int size;
+		double dsize;
 		int index;
 		int frequency;
 		QString name;
