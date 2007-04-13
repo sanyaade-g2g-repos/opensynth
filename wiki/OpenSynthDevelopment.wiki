@@ -18,10 +18,12 @@ OpenSynth is written in C++, using Qt4.2, and interfaces with the Linux sound in
 
   * Proof-of-Concept code written for:
     * Dynamic Sample Generation
-    * Keyboard Detection
     * Polyphony
-    * Sine/Square Waves
+  * Interface
+    * Radio Buttons for Waveforms
+  * Completed
+    * Sine/Square/Saw/Triangle Waveforms
     * Continuous Playback
-
+    * Keyboard Detection
 
 
