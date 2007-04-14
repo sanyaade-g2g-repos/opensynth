@@ -49,7 +49,7 @@ void SynthWindow::keyPressEvent( QKeyEvent *event )
 	{
 		case Qt::Key_A:
 //		cout << " Ab ";
-		ab.add(new WaveForm("A,3,-1", (int)(freq('A',3,-1)), wt));
+		ab.add(new WaveForm("A,3,-1", (int)(freq('A',3,-1)), wt, 1000, 1000, 1000, 10));
 		break;
 
 		case Qt::Key_Z:

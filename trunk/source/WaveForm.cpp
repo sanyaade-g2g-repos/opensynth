@@ -5,7 +5,9 @@ using namespace std;
 #include <QString>
 #include "WaveForm.h"
 
-WaveForm::WaveForm(QString n, int f, wavetype wt)
+WaveForm::WaveForm(QString n, int f, wavetype wt,
+			int aa, int dd, int ss, int rr)
+	:a(aa),d(dd),s(ss),r(rr),envcount(0),maxvol(2500)
 {
 	name = n;
 	frequency = f;
@@ -16,7 +18,7 @@ WaveForm::WaveForm(QString n, int f, wavetype wt)
 	
 	for(int i = 0; i < size; ++i)
 	{
-		if( i == 0 ) { sample[i] = 0; continue; }
+		//if( i == 0 ) { sample[i] = 0; continue; }
 
 		if( wt == SIN ) {
 			sample[i] = sin(frequency * 2 * M_PI * i / 44100); //sine wave
@@ -29,7 +31,7 @@ WaveForm::WaveForm(QString n, int f, wavetype wt)
 		}
 
 //		cout << sample[i] << " ";
-		sample[i] *= 2000;
+//		sample[i] *= 2000;
 	}
 //	cout << endl << endl;
 }
@@ -49,5 +51,20 @@ WaveForm::~WaveForm()
 int WaveForm::getAndIncrementIndex(void)
 {
 	return (index = (index+1)%size);
+}
+
+double WaveForm::nextSample(void)
+{
+	int tempvol, val;
+	++envcount;
+	if( (val = envcount/50) < a )
+		tempvol = maxvol*val/a;
+	else if( (val = envcount/50 - a) < d ){
+		tempvol = (s - maxvol)*val/d + maxvol;
+//		cout << "decay!" << endl;
+	}
+	else
+		tempvol = s;
+	return tempvol * sample[index=(index+1)%size];
 }
 
