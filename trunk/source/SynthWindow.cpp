@@ -20,6 +20,8 @@ SynthWindow::SynthWindow()
 	s = 2000;
 
 	wavelayout = new QVBoxLayout;
+	wholelayout = new QHBoxLayout;
+
 	sinebutton = new QRadioButton("&Sine Wave", this);
 	squarebutton = new QRadioButton("S&quare Wave", this);
 	trianglebutton = new QRadioButton("&Triangle Wave", this);
@@ -45,6 +47,11 @@ SynthWindow::SynthWindow()
 	release->setMaximum(750);
 	sustain->setMaximum(3000);
 
+	attack->setSingleStep(10);
+	decay->setSingleStep(10);
+	release->setSingleStep(10);
+	sustain->setSingleStep(100);
+
 	connect(attack, SIGNAL(valueChanged(int)), this, SLOT(setAttack(int)));
 	connect(decay, SIGNAL(valueChanged(int)), this, SLOT(setDecay(int)));
 	connect(release, SIGNAL(valueChanged(int)), this, SLOT(setRelease(int)));
@@ -54,11 +61,12 @@ SynthWindow::SynthWindow()
 	wavelayout->addWidget(squarebutton);
 	wavelayout->addWidget(trianglebutton);
 	wavelayout->addWidget(sawbutton);
-	wavelayout->addWidget(attack);
-	wavelayout->addWidget(decay);
-	wavelayout->addWidget(release);
-	wavelayout->addWidget(sustain);
-	setLayout(wavelayout);
+	wholelayout->addLayout(wavelayout);
+	wholelayout->addWidget(attack);
+	wholelayout->addWidget(decay);
+	wholelayout->addWidget(release);
+	wholelayout->addWidget(sustain);
+	setLayout(wholelayout);
 }
 
 void SynthWindow::setSineWave() { wt = SIN; }
@@ -81,7 +89,7 @@ void SynthWindow::keyPressEvent( QKeyEvent *event )
 	{
 		case Qt::Key_A:
 //		cout << " Ab ";
-		ab.add(new WaveForm("A,3,-1", (int)(freq('A',3,-1)), wt, 1000, 1000, 1000, 10));
+		ab.add(new WaveForm("A,3,-1", (int)(freq('A',3,-1)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_Z:

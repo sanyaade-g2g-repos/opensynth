@@ -48,6 +48,7 @@ class SynthWindow : public QWidget
 		QDial *sustain;
 		QDial *release;
 		QVBoxLayout *wavelayout;
+		QHBoxLayout *wholelayout;
 		wavetype wt;		
 		int a,d,r,s;
 };
