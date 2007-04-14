@@ -13,6 +13,9 @@ class AudioBuffer:public QObject
 		void add(WaveForm *);
 		void remove(QString);
 
+	signals:
+		void addedWave();
+
 	private:
 		QHash<QString, WaveForm *> currentNotes;
 		bool * playflag;

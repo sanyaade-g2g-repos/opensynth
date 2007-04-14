@@ -1,4 +1,5 @@
 #include <cmath>
+#include <sys/time.h>
 #include <iostream>
 using namespace std;
 
@@ -55,13 +56,15 @@ int WaveForm::getAndIncrementIndex(void)
 
 double WaveForm::nextSample(void)
 {
+//	struct timeval tv;
+//	gettimeofday(&tv,NULL);
+//	cout << "nextSample at sec: " << tv.tv_sec << "  usec: " << tv.tv_usec << endl;
 	int tempvol, val;
 	++envcount;
 	if( (val = envcount/50) < a )
 		tempvol = maxvol*val/a;
 	else if( (val = envcount/50 - a) < d ){
 		tempvol = (s - maxvol)*val/d + maxvol;
-//		cout << "decay!" << endl;
 	}
 	else
 		tempvol = s;
