@@ -27,6 +27,10 @@ class SynthWindow : public QWidget
 		void setSquareWave(void);
 		void setTriangleWave(void);
 		void setSawWave(void);
+		void setAttack(int);
+		void setDecay(int);
+		void setRelease(int);
+		void setSustain(int);
 
 
 	protected:
@@ -39,8 +43,13 @@ class SynthWindow : public QWidget
 		QRadioButton *squarebutton;
 		QRadioButton *trianglebutton;
 		QRadioButton *sawbutton;
+		QDial *attack;
+		QDial *decay;
+		QDial *sustain;
+		QDial *release;
 		QVBoxLayout *wavelayout;
 		wavetype wt;		
+		int a,d,r,s;
 };
 
 #endif

@@ -14,6 +14,10 @@ float freq(char pitch, int octave, int alter);
 SynthWindow::SynthWindow()
 {
 	wt = SIN;
+	a = 50;
+	d = 25;
+	r = 25;
+	s = 2000;
 
 	wavelayout = new QVBoxLayout;
 	sinebutton = new QRadioButton("&Sine Wave", this);
@@ -26,11 +30,34 @@ SynthWindow::SynthWindow()
 	connect(trianglebutton, SIGNAL(clicked()), this, SLOT(setTriangleWave()));
 	connect(sawbutton, SIGNAL(clicked()), this, SLOT(setSawWave()));
 
+	attack = new QDial(this);
+	decay = new QDial(this);
+	release = new QDial(this);
+	sustain = new QDial(this);
+
+	attack->setMinimum(0);
+	decay->setMinimum(0);
+	release->setMinimum(0);
+	sustain->setMinimum(0);
+
+	attack->setMaximum(750);
+	decay->setMaximum(750);
+	release->setMaximum(750);
+	sustain->setMaximum(3000);
+
+	connect(attack, SIGNAL(valueChanged(int)), this, SLOT(setAttack(int)));
+	connect(decay, SIGNAL(valueChanged(int)), this, SLOT(setDecay(int)));
+	connect(release, SIGNAL(valueChanged(int)), this, SLOT(setRelease(int)));
+	connect(sustain, SIGNAL(valueChanged(int)), this, SLOT(setSustain(int)));
 
 	wavelayout->addWidget(sinebutton);
 	wavelayout->addWidget(squarebutton);
 	wavelayout->addWidget(trianglebutton);
 	wavelayout->addWidget(sawbutton);
+	wavelayout->addWidget(attack);
+	wavelayout->addWidget(decay);
+	wavelayout->addWidget(release);
+	wavelayout->addWidget(sustain);
 	setLayout(wavelayout);
 }
 
@@ -38,6 +65,11 @@ void SynthWindow::setSineWave() { wt = SIN; }
 void SynthWindow::setSquareWave() { wt = SQR; }
 void SynthWindow::setTriangleWave() { wt = TRI; }
 void SynthWindow::setSawWave() { wt = SAW; }
+
+void SynthWindow::setAttack(int aa) { a = aa; }
+void SynthWindow::setDecay(int dd) { d = dd; }
+void SynthWindow::setRelease(int rr) { r = rr; }
+void SynthWindow::setSustain(int ss) { s = ss; }
 
 void SynthWindow::keyPressEvent( QKeyEvent *event )
 {
@@ -54,83 +86,83 @@ void SynthWindow::keyPressEvent( QKeyEvent *event )
 
 		case Qt::Key_Z:
 //		cout << " A ";
-		ab.add(new WaveForm("A,3,0", (int)(freq('A',3,0)), wt));
+		ab.add(new WaveForm("A,3,0", (int)(freq('A',3,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_S:
 //		cout << " Bb ";
-		ab.add(new WaveForm("B,3,-1", (int)(freq('B',3,-1)), wt));
+		ab.add(new WaveForm("B,3,-1", (int)(freq('B',3,-1)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_X:
 //		cout << " B ";
-		ab.add(new WaveForm("B,3,0", (int)(freq('B',3,0)), wt));
+		ab.add(new WaveForm("B,3,0", (int)(freq('B',3,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_C:
 //		cout << " C ";
-		ab.add(new WaveForm("C,4,0", (int)(freq('C',4,0)), wt));
+		ab.add(new WaveForm("C,4,0", (int)(freq('C',4,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_F:
 //		cout << " C# ";
-		ab.add(new WaveForm("C,4,1", (int)(freq('C',4,1)), wt));
+		ab.add(new WaveForm("C,4,1", (int)(freq('C',4,1)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_V:
 //		cout << " D ";
-		ab.add(new WaveForm("D,4,0", (int)(freq('D',4,0)), wt));
+		ab.add(new WaveForm("D,4,0", (int)(freq('D',4,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_G:
 //		cout << " D# ";
-		ab.add(new WaveForm("D,4,1", (int)(freq('D',4,1)), wt));
+		ab.add(new WaveForm("D,4,1", (int)(freq('D',4,1)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_B:
 //		cout << " E ";
-		ab.add(new WaveForm("E,4,0", (int)(freq('E',4,0)), wt));
+		ab.add(new WaveForm("E,4,0", (int)(freq('E',4,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_N:
 //		cout << " F ";
-		ab.add(new WaveForm("F,4,0", (int)(freq('F',4,0)), wt));
+		ab.add(new WaveForm("F,4,0", (int)(freq('F',4,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_J:
 //		cout << " F# ";
-		ab.add(new WaveForm("F,4,1", (int)(freq('F',4,1)), wt));
+		ab.add(new WaveForm("F,4,1", (int)(freq('F',4,1)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_M:
 //		cout << " G ";
-		ab.add(new WaveForm("G,4,0", (int)(freq('G',4,0)), wt));
+		ab.add(new WaveForm("G,4,0", (int)(freq('G',4,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_K:
 //		cout << " G# ";
-		ab.add(new WaveForm("G,4,1", (int)(freq('G',4,1)), wt));
+		ab.add(new WaveForm("G,4,1", (int)(freq('G',4,1)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_Comma:
 //		cout << " A ";
-		ab.add(new WaveForm("A,4,0", (int)(freq('A',4,0)), wt));
+		ab.add(new WaveForm("A,4,0", (int)(freq('A',4,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_L:
-		ab.add(new WaveForm("A,4,1", (int)(freq('A',4,1)), wt));
+		ab.add(new WaveForm("A,4,1", (int)(freq('A',4,1)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_Period:
-		ab.add(new WaveForm("B,4,0", (int)(freq('B',4,0)), wt));
+		ab.add(new WaveForm("B,4,0", (int)(freq('B',4,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_Slash:
-		ab.add(new WaveForm("C,5,0", (int)(freq('C',5,0)), wt));
+		ab.add(new WaveForm("C,5,0", (int)(freq('C',5,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_Apostrophe:
-		ab.add(new WaveForm("C,5,1", (int)(freq('C',5,1)), wt));
+		ab.add(new WaveForm("C,5,1", (int)(freq('C',5,1)), wt, a, d, s, r));
 		break;
 		
 		default:
