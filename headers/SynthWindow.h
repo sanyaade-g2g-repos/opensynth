@@ -32,7 +32,6 @@ class SynthWindow : public QWidget
 		void setRelease(int);
 		void setSustain(int);
 
-
 	protected:
 		void keyPressEvent( QKeyEvent *event );
 		void keyReleaseEvent( QKeyEvent *event );

@@ -33,9 +33,11 @@ void AudioThread::run()
 	short fake = 0;
 	qDebug() << "starting audio thread";
 	
-  	out = open("/dev/dsp",O_RDWR);
+  	out = open("/dev/dsp",O_WRONLY);
 	if( out < 0) { qDebug() << "opening /dev/dsp failed"; }
 	
+	int arg = 0x00080008;
+	ioctl(out,SNDCTL_DSP_SETFRAGMENT,&arg);
 	c=16; /* 16 bits */
 	ioctl(out,SOUND_PCM_WRITE_BITS,&c);
 	c=1;  /* 1 channel */
@@ -43,38 +45,29 @@ void AudioThread::run()
 	c=44100; /* 44.1KHz */
 	ioctl(out,SOUND_PCM_WRITE_RATE,&c);
 
-//	cout << "buffer size: " << size << endl;
-//	cout << "buffer location: " << ab << endl;
-
-//	qDebug() << "about to start rendering...";
 	c = 0;
 	int i = -1;
 	QHash<QString, WaveForm *>::const_iterator j;
 	while(1)
 	{
-//		if( (*playflag) )
-//		{
-		//	if( wf.size() ) {
-				temp = 0;
-				mutex.lock();
-				for (j = wf.begin(); j != wf.end(); ++j)
-				{
-//					c = j.value()->index;
-//					temp += (short)(j.value()->sample[j.value()->getAndIncrementIndex()]);
-//					j.value()->incrementIndex();
-					temp += (short)(j.value()->nextSample());
-				}
-				mutex.unlock();
-				write(out, &temp, sizeof(short));
-		//	}
-//		}
-//		else {
-//			usleep(1);
-//			write(out, &fake, sizeof(short));
-//		}
+		temp = 0;
+		mutex.lock();
+		for (j = wf.begin(); j != wf.end(); ++j)
+		{
+			temp += (short)(j.value()->nextSample());
+		}
+		usleep(1);
+		mutex.unlock();
+		write(out, &temp, sizeof(short));
+//		ioctl(out,SNDCTL_DSP_SYNC);
 	}
 
 	close(out);
 	exit();
+}
+
+void AudioThread::caughtAdd()
+{
+	cout << "Wave Added!!!!!" << endl;
 }
 
