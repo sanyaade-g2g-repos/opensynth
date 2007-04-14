@@ -12,11 +12,12 @@ class WaveForm
 	friend class AudioThread;
 	friend class AudioBuffer;
 	public:
-		WaveForm(QString n, int f, wavetype);
+		WaveForm(QString n, int f, wavetype, int aa = 500, int dd = 250, int ss = 2000, int rr = 0);
 		WaveForm(QString n);
 		~WaveForm();
 
 		int getAndIncrementIndex(void);
+		double nextSample(void);
 
 	private:
 		double * sample;
@@ -26,6 +27,12 @@ class WaveForm
 		int frequency;
 		QString name;
 		wavetype wt;
+		int maxvol; //maximum volume for use by envelope
+		int a,d,s,r; //a -> time to reach full volume (ms)
+			     //d -> time to decay to sustained volume
+			     //s -> sustained volume
+			     //r -> time to fade out from sustain
+		int envcount; //contains number of sample wraps
 };
 
 #endif

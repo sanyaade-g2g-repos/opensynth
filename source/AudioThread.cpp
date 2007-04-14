@@ -60,8 +60,9 @@ void AudioThread::run()
 				for (j = wf.begin(); j != wf.end(); ++j)
 				{
 //					c = j.value()->index;
-					temp += (short)(j.value()->sample[j.value()->getAndIncrementIndex()]);
+//					temp += (short)(j.value()->sample[j.value()->getAndIncrementIndex()]);
 //					j.value()->incrementIndex();
+					temp += (short)(j.value()->nextSample());
 				}
 				mutex.unlock();
 				write(out, &temp, sizeof(short));
