@@ -61,7 +61,7 @@ double WaveForm::nextSample(void)
 	++envcount;
 	if ( release ) {
 		if( tempvol > 0 )
-			tempvol = (0-relvol)*(envcount/50)/r + relvol;
+			tempvol = (0-relvol)*(envcount/50)/(r+1) + relvol;
 		else { 
 			tempvol = 0;
 			/*if( sample[index] == 0 )*/ emit finished(name);

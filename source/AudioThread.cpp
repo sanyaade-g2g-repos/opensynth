@@ -43,7 +43,9 @@ void AudioThread::run()
 		mutex.lock();
 		for (j = wf.begin(); j != wf.end(); ++j)
 		{
-			temp += (short)(j.value()->nextSample());
+			try {
+				temp += (short)(j.value()->nextSample());
+			} catch(...) {}
 		}
 		mutex.unlock();
 		write(out, &temp, sizeof(short));
