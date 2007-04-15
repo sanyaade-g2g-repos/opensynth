@@ -18,7 +18,8 @@ class WaveForm
 
 		int getAndIncrementIndex(void);
 		double nextSample(void);
-		bool released(void);
+		bool isReleased(void);
+		void releaseIt(void);
 
 	private:
 		double * sample;
@@ -36,6 +37,7 @@ class WaveForm
 		int envcount; //contains number of sample wraps
 		int tempvol;
 		bool release;
+		int relvol;
 };
 
 #endif
