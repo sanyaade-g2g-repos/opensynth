@@ -16,25 +16,19 @@ AudioThread::AudioThread(QObject *parent, QHash<QString, WaveForm *> & waveforms
 {
 }
 
-//void AudioThread::setBuffer( int s, bool * pf)
-//{
-//	size = s;
-//	playflag = pf;
-//	*playflag = false;
-//}
-
 void AudioThread::run()
 {
 	int c,out;
 	short temp;
-//	short fake = 0;
 	qDebug() << "starting audio thread";
 	
   	out = open("/dev/dsp",O_WRONLY);
 	if( out < 0) { qDebug() << "opening /dev/dsp failed"; }
 	
-	int arg = 0x00080008;
-	ioctl(out,SNDCTL_DSP_SETFRAGMENT,&arg);
+	int arg = 0x00100008; 			//These are the magic lines that fixed the delay
+	ioctl(out,SNDCTL_DSP_SETFRAGMENT,&arg); //and stopped most of my frustration. They simply
+						//set bounds on the buffering for the soundcard.
+
 	c=16; /* 16 bits */
 	ioctl(out,SOUND_PCM_WRITE_BITS,&c);
 	c=1;  /* 1 channel */
@@ -42,8 +36,6 @@ void AudioThread::run()
 	c=44100; /* 44.1KHz */
 	ioctl(out,SOUND_PCM_WRITE_RATE,&c);
 
-	c = 0;
-//	int i = -1;
 	QHash<QString, WaveForm *>::const_iterator j;
 	while(playflag)
 	{
@@ -61,5 +53,5 @@ void AudioThread::run()
 	exit();
 }
 
-void AudioThread::quitIt() { playflag = false; }
+void AudioThread::quitIt() { mutex.lock(); playflag = false; mutex.unlock(); }
 

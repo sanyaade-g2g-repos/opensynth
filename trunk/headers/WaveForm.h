@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QMutex>
 
 enum wavetype {
 	SIN, SQR, TRI, SAW
@@ -15,7 +16,7 @@ class WaveForm:public QObject
 	friend class AudioThread;
 	friend class AudioBuffer;
 	public:
-		WaveForm(QObject *parent, QString n, int f, wavetype, int aa = 500, int dd = 250, int ss = 2000, int rr = 0);
+		WaveForm(QString n, int f, wavetype, int aa = 500, int dd = 250, int ss = 2000, int rr = 0);
 		WaveForm(QString n);
 		~WaveForm();
 
@@ -28,6 +29,7 @@ class WaveForm:public QObject
 		void finished(QString);
 
 	private:
+		QMutex mutex;
 		double * sample;
 		int size;
 		double dsize;
@@ -44,7 +46,6 @@ class WaveForm:public QObject
 		int tempvol;
 		bool release;
 		int relvol;
-		QObject *parent;
 };
 
 #endif

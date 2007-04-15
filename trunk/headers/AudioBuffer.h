@@ -20,6 +20,7 @@ class AudioBuffer:public QObject
 		void closePlay(void);
 
 	private:
+		QMutex mutex;
 		QHash<QString, WaveForm *> currentNotes;
 	//	bool * playflag;
 		AudioThread * playthread;
