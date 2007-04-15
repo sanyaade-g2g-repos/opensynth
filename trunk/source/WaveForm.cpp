@@ -6,10 +6,12 @@ using namespace std;
 #include <QString>
 #include "WaveForm.h"
 
-WaveForm::WaveForm(QString n, int f, wavetype wt,
+WaveForm::WaveForm(QObject *par, QString n, int f, wavetype wt,
 			int aa, int dd, int ss, int rr)
-	:a(aa),d(dd),s(ss),r(rr),envcount(0),maxvol(2500)
+	:parent(par),a(aa),d(dd),s(ss),r(rr),envcount(0),maxvol(2500)
 {
+//	connect(this, SIGNAL(finished(QString)), parent, SLOT(deleteWave(QString)));
+
 	name = n;
 	frequency = f;
 	size = 44100/frequency;
@@ -61,8 +63,10 @@ double WaveForm::nextSample(void)
 	if ( release ) {
 		if( tempvol > 0 )
 			tempvol = (0-relvol)*(envcount/50)/r + relvol;
-		else 
+		else { 
 			tempvol = 0;
+			/*if( sample[index] == 0 )*/ emit finished(name);
+		}
 	}
 	else if( (val = envcount/50) < a )
 		tempvol = maxvol*val/a;
@@ -71,7 +75,7 @@ double WaveForm::nextSample(void)
 		tempvol = (s - maxvol)*val/d + maxvol;
 	
 	else
-		{tempvol = s; /*envcount = 0;*/}
+		{tempvol = s; }
 
 	return tempvol * sample[index=(index+1)%size];
 }
