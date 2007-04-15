@@ -13,6 +13,9 @@ class AudioBuffer:public QObject
 		void add(WaveForm *);
 		void remove(QString);
 	
+	public slots:
+		void deleteWave(QString);
+
 	signals:
 		void closePlay(void);
 

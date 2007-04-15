@@ -1,18 +1,21 @@
 #ifndef WAVEFORM_H
 #define WAVEFORM_H
 
+#include <QObject>
 #include <QString>
 
 enum wavetype {
 	SIN, SQR, TRI, SAW
 };
 
-class WaveForm
+class WaveForm:public QObject
 {
+	Q_OBJECT
+
 	friend class AudioThread;
 	friend class AudioBuffer;
 	public:
-		WaveForm(QString n, int f, wavetype, int aa = 500, int dd = 250, int ss = 2000, int rr = 0);
+		WaveForm(QObject *parent, QString n, int f, wavetype, int aa = 500, int dd = 250, int ss = 2000, int rr = 0);
 		WaveForm(QString n);
 		~WaveForm();
 
@@ -20,6 +23,9 @@ class WaveForm
 		double nextSample(void);
 		bool isReleased(void);
 		void releaseIt(void);
+
+	signals:
+		void finished(QString);
 
 	private:
 		double * sample;
@@ -38,6 +44,7 @@ class WaveForm
 		int tempvol;
 		bool release;
 		int relvol;
+		QObject *parent;
 };
 
 #endif
