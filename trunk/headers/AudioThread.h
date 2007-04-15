@@ -11,17 +11,15 @@ class AudioThread : public QThread
 	public:
 		AudioThread(QObject *parent, QHash<QString, WaveForm *> & waveforms);
 		void run();
-		void setBuffer( int s, bool * play);
 
 	public slots:
-		void caughtAdd(void);
+		void quitIt(void);
 
 	private:
-//		short * ab;
 		QMutex mutex;
 		QHash<QString, WaveForm *> & wf;
 		int size;
-		bool * playflag;
+		bool playflag;
 };
 
 #endif

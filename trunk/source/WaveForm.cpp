@@ -16,10 +16,10 @@ WaveForm::WaveForm(QString n, int f, wavetype wt,
 	dsize = (double)size;
 	sample = new double[size];
 	index = 0;
+	release = false;
 	
 	for(int i = 0; i < size; ++i)
 	{
-		//if( i == 0 ) { sample[i] = 0; continue; }
 
 		if( wt == SIN ) {
 			sample[i] = sin(frequency * 2 * M_PI * i / 44100); //sine wave
@@ -56,18 +56,25 @@ int WaveForm::getAndIncrementIndex(void)
 
 double WaveForm::nextSample(void)
 {
-//	struct timeval tv;
-//	gettimeofday(&tv,NULL);
-//	cout << "nextSample at sec: " << tv.tv_sec << "  usec: " << tv.tv_usec << endl;
-	int tempvol, val;
+	int val;
 	++envcount;
-	if( (val = envcount/50) < a )
-		tempvol = maxvol*val/a;
-	else if( (val = envcount/50 - a) < d ){
-		tempvol = (s - maxvol)*val/d + maxvol;
+	if ( release ) {
+		if( tempvol > 0 )
+			tempvol -= (envcount/50)/r;
+		else 
+			tempvol = 0;
 	}
+	else if( (val = envcount/50) < a )
+		tempvol = maxvol*val/a;
+	
+	else if( (val = envcount/50 - a) < d )
+		tempvol = (s - maxvol)*val/d + maxvol;
+	
 	else
-		tempvol = s;
+		{tempvol = s; /*envcount = 0;*/}
+
 	return tempvol * sample[index=(index+1)%size];
 }
+
+bool WaveForm::released(void) { release = true; return (tempvol<1)?true:false; }
 

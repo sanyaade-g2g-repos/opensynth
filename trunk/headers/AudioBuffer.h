@@ -12,13 +12,13 @@ class AudioBuffer:public QObject
 		~AudioBuffer();
 		void add(WaveForm *);
 		void remove(QString);
-
+	
 	signals:
-		void addedWave();
+		void closePlay(void);
 
 	private:
 		QHash<QString, WaveForm *> currentNotes;
-		bool * playflag;
+	//	bool * playflag;
 		AudioThread * playthread;
 
 
