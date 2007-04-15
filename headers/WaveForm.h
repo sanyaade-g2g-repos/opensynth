@@ -18,6 +18,7 @@ class WaveForm
 
 		int getAndIncrementIndex(void);
 		double nextSample(void);
+		bool released(void);
 
 	private:
 		double * sample;
@@ -33,6 +34,8 @@ class WaveForm
 			     //s -> sustained volume
 			     //r -> time to fade out from sustain
 		int envcount; //contains number of sample wraps
+		int tempvol;
+		bool release;
 };
 
 #endif
