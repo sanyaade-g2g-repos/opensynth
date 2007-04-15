@@ -23,7 +23,9 @@ AudioBuffer::~AudioBuffer()
 void AudioBuffer::add(WaveForm * wf)
 {
 	if( !currentNotes.contains(wf->name) ) {
+//		mutex.lock();
 		currentNotes.insert(wf->name, wf);
+//		mutex.unlock();
 		connect(currentNotes[wf->name], SIGNAL(finished(QString)), 
 				this, SLOT(deleteWave(QString)));
 	}
@@ -43,8 +45,10 @@ void AudioBuffer::remove(QString wfn)
 void AudioBuffer::deleteWave(QString n)
 {
 	if( currentNotes.contains(n)) {
+		mutex.lock();
 		delete currentNotes[n];
 		currentNotes.remove(n);
+		mutex.unlock();
 //		cout << "deleted! current size: " << currentNotes.size() << endl;
 	}
 }
