@@ -30,7 +30,8 @@ void AudioBuffer::remove(QString wfn)
 {
 	if( currentNotes.contains(wfn) )
 	{
-		while( !currentNotes[wfn]->released() ) {usleep(100);}
+		currentNotes[wfn]->releaseIt();
+		while( !currentNotes[wfn]->isReleased() ) { usleep(100); }
 		delete currentNotes[wfn];
 		currentNotes.remove(wfn);
 	}

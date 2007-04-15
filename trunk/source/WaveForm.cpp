@@ -60,7 +60,7 @@ double WaveForm::nextSample(void)
 	++envcount;
 	if ( release ) {
 		if( tempvol > 0 )
-			tempvol -= (envcount/50)/r;
+			tempvol = (0-relvol)*(envcount/50)/r + relvol;
 		else 
 			tempvol = 0;
 	}
@@ -76,5 +76,6 @@ double WaveForm::nextSample(void)
 	return tempvol * sample[index=(index+1)%size];
 }
 
-bool WaveForm::released(void) { release = true; return (tempvol<1)?true:false; }
+bool WaveForm::isReleased(void) { return (tempvol<1)?true:false; }
+void WaveForm::releaseIt(void) { release = true; envcount = 0; relvol = tempvol; }
 
