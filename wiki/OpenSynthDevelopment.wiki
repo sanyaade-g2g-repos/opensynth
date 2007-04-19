@@ -16,8 +16,6 @@ OpenSynth is written in C++, using Qt4.2, and interfaces with the Linux sound in
 
 == Progress ==
 
-  * Proof-of-Concept code written for:
-    * Envelope
   * Interface
     * Radio Buttons for Waveforms
     * Dials for Attack, Decay, Release, and Sustain
@@ -27,6 +25,6 @@ OpenSynth is written in C++, using Qt4.2, and interfaces with the Linux sound in
     * Keyboard Detection
     * Polyphony
     * Real-time playback!
-
+    * ADSR Envelope
 
 
