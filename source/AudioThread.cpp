@@ -11,8 +11,8 @@
 #include <cmath>
 using namespace std;
 
-AudioThread::AudioThread(QObject *parent, QHash<QString, WaveForm *> & waveforms)
-	: QThread(parent), wf(waveforms), playflag(true)
+AudioThread::AudioThread(QObject *parent, map<QString, WaveForm *> & wfs)
+	: QThread(parent), wf(wfs), playflag(true)
 {
 }
 
@@ -36,16 +36,15 @@ void AudioThread::run()
 	c=44100; /* 44.1KHz */
 	ioctl(out,SOUND_PCM_WRITE_RATE,&c);
 
-	QHash<QString, WaveForm *>::const_iterator j;
+//	QHash<QString, WaveForm *>::const_iterator j;
+	map< QString, WaveForm *>::const_iterator j;
 	while(playflag)
 	{
 		temp = 0;
 		mutex.lock();
 		for (j = wf.begin(); j != wf.end(); ++j)
 		{
-			try {
-				temp += (short)(j.value()->nextSample());
-			} catch(...) {}
+			temp += (short)(j->second->nextSample());
 		}
 		mutex.unlock();
 		write(out, &temp, sizeof(short));

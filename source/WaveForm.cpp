@@ -58,6 +58,7 @@ int WaveForm::getAndIncrementIndex(void)
 
 double WaveForm::nextSample(void)
 {
+//	cout << " called nextsample on " << endl;
 //	QMutexLocker locker(&mutex);
 	int val;
 	envcount = envcount + 1;
@@ -92,6 +93,7 @@ bool WaveForm::isReleased(void) { return (tempvol<1)?true:false; }
 void WaveForm::releaseIt(void) 
 { 
 //	QMutexLocker lockme(&mutex);
+//	cout << "releasedIt!!" << endl;
 	release = true; 
 	envcount = 0; 
 	relvol = tempvol;

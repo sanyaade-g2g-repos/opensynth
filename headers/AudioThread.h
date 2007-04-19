@@ -4,12 +4,14 @@
 #include <QtGui>
 #include <QHash>
 #include <WaveForm.h>
+#include <map>
+using namespace std;
 
 class AudioThread : public QThread
 {
 	Q_OBJECT
 	public:
-		AudioThread(QObject *parent, QHash<QString, WaveForm *> & waveforms);
+		AudioThread(QObject *parent, map<QString, WaveForm *> & wfs);
 		void run();
 
 	public slots:
@@ -17,7 +19,8 @@ class AudioThread : public QThread
 
 	private:
 		QMutex mutex;
-		QHash<QString, WaveForm *> & wf;
+		//QHash<QString, WaveForm *> & wf;
+		map< QString, WaveForm * > & wf;
 		int size;
 		bool playflag;
 };

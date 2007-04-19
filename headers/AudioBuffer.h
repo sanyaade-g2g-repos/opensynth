@@ -3,6 +3,8 @@
 
 #include "AudioThread.h"
 #include <QObject>
+#include <map>
+using namespace std;
 
 class AudioBuffer:public QObject
 {
@@ -21,7 +23,8 @@ class AudioBuffer:public QObject
 
 	private:
 		QMutex mutex;
-		QHash<QString, WaveForm *> currentNotes;
+		map< QString, WaveForm * > currentNotes;
+//		QHash<QString, WaveForm *> currentNotes;
 	//	bool * playflag;
 		AudioThread * playthread;
 

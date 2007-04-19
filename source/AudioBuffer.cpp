@@ -22,18 +22,19 @@ AudioBuffer::~AudioBuffer()
 
 void AudioBuffer::add(WaveForm * wf)
 {
-	if( !currentNotes.contains(wf->name) ) {
+	if( currentNotes.end() == currentNotes.find(wf->name) ) {
 //		mutex.lock();
-		currentNotes.insert(wf->name, wf);
+		currentNotes[wf->name] = wf;
 //		mutex.unlock();
-		connect(currentNotes[wf->name], SIGNAL(finished(QString)), 
+		connect(wf, SIGNAL(finished(QString)), 
 				this, SLOT(deleteWave(QString)));
 	}
+//	cout << "currentNotes.size(): " << currentNotes.size() << endl;
 }
 
 void AudioBuffer::remove(QString wfn)
 {
-	if( currentNotes.contains(wfn) )
+	if( currentNotes.end() != currentNotes.find(wfn) )
 	{
 		currentNotes[wfn]->releaseIt();
 //		while( !currentNotes[wfn]->isReleased() ) { usleep(100); }
@@ -44,10 +45,10 @@ void AudioBuffer::remove(QString wfn)
 
 void AudioBuffer::deleteWave(QString n)
 {
-	if( currentNotes.contains(n)) {
+	if( currentNotes.end() != currentNotes.find(n)) {
 		mutex.lock();
 		delete currentNotes[n];
-		currentNotes.remove(n);
+		currentNotes.erase(n);
 		mutex.unlock();
 //		cout << "deleted! current size: " << currentNotes.size() << endl;
 	}
