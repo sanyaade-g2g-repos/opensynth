@@ -18,6 +18,7 @@ WaveForm::WaveForm(QString n, int f, wavetype wt,
 	sample = new double[size];
 	index = 0;
 	release = false;
+	tempvol = 0;
 	
 	for(int i = 0; i < size; ++i)
 	{
@@ -57,14 +58,17 @@ int WaveForm::getAndIncrementIndex(void)
 
 double WaveForm::nextSample(void)
 {
+//	QMutexLocker locker(&mutex);
 	int val;
-	++envcount;
+	envcount = envcount + 1;
 	if ( release ) {
 		if( tempvol > 0 )
 			tempvol = (0-relvol)*(envcount/50)/(r+1) + relvol;
 		else { 
 			tempvol = 0;
-			/*if( sample[index] == 0 )*/ emit finished(name);
+			/*if( sample[index] == 0 )*/
+		       	emit finished(name);
+			return 0;
 		}
 	}
 	else if( (val = envcount/50) < a )
@@ -76,17 +80,20 @@ double WaveForm::nextSample(void)
 	else
 		{tempvol = s; }
 
-	return tempvol * sample[index=(index+1)%size];
+	int returnindex = (index+1)%size;
+	double returnsample = sample[returnindex];
+	++index;
+
+	return (double)tempvol * returnsample;
 }
 
 bool WaveForm::isReleased(void) { return (tempvol<1)?true:false; }
 
 void WaveForm::releaseIt(void) 
 { 
-	mutex.lock();
+//	QMutexLocker lockme(&mutex);
 	release = true; 
 	envcount = 0; 
 	relvol = tempvol;
-	mutex.unlock();
 }
 
