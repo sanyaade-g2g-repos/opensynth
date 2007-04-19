@@ -22,14 +22,14 @@ AudioBuffer::~AudioBuffer()
 
 void AudioBuffer::add(WaveForm * wf)
 {
-	if( currentNotes.end() == currentNotes.find(wf->name) ) {
-//		mutex.lock();
-		currentNotes[wf->name] = wf;
-//		mutex.unlock();
-		connect(wf, SIGNAL(finished(QString)), 
-				this, SLOT(deleteWave(QString)));
+	if( currentNotes.end() != currentNotes.find(wf->name) ) {
+		currentNotes.erase(wf->name);
+		delete currentNotes[wf->name];
 	}
-//	cout << "currentNotes.size(): " << currentNotes.size() << endl;
+
+	currentNotes[wf->name] = wf;
+	connect(wf, SIGNAL(finished(QString)), 
+			this, SLOT(deleteWave(QString)));
 }
 
 void AudioBuffer::remove(QString wfn)

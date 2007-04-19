@@ -85,6 +85,11 @@ void SynthWindow::keyPressEvent( QKeyEvent *event )
 
 	int key = event->key();
 
+	if( event->nativeScanCode() == 62 )
+		ab.add(new WaveForm( "D,5,0", (int)(freq('D',5,0)), wt, a, d, s, r));
+	else if( event->nativeScanCode() == 50 )
+		ab.add(new WaveForm( "G,3,0", (int)(freq('G',3,0)), wt, a, d, s, r));
+
 	switch (key)
 	{
 		case Qt::Key_A:
@@ -188,6 +193,11 @@ void SynthWindow::keyReleaseEvent( QKeyEvent *event )
 
 	if( !event->isAutoRepeat() ) {
 	//	cout << "key release" << endl;
+
+	if( event->nativeScanCode() == 62 )
+		ab.remove( "D,5,0");
+	else if( event->nativeScanCode() == 50 )
+		ab.remove( "G,3,0");
 
 	switch ( key )
 	{
