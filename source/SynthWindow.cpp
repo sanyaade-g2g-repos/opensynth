@@ -23,6 +23,7 @@ SynthWindow::SynthWindow()
 	wholelayout = new QHBoxLayout;
 
 	sinebutton = new QRadioButton("&Sine Wave", this);
+	sinebutton->setChecked(true);
 	squarebutton = new QRadioButton("S&quare Wave", this);
 	trianglebutton = new QRadioButton("&Triangle Wave", this);
 	sawbutton = new QRadioButton("Sa&w Wave", this);
@@ -33,9 +34,20 @@ SynthWindow::SynthWindow()
 	connect(sawbutton, SIGNAL(clicked()), this, SLOT(setSawWave()));
 
 	attack = new QDial(this);
+	attack->setNotchesVisible(true);
+	attack->setValue(a);
+
 	decay = new QDial(this);
+	decay->setNotchesVisible(true);
+	decay->setValue(d);
+
 	release = new QDial(this);
+	release->setNotchesVisible(true);
+	release->setValue(r);
+
 	sustain = new QDial(this);
+	sustain->setNotchesVisible(true);
+	sustain->setValue(s);
 
 	attack->setMinimum(0);
 	decay->setMinimum(0);
@@ -57,15 +69,42 @@ SynthWindow::SynthWindow()
 	connect(release, SIGNAL(valueChanged(int)), this, SLOT(setRelease(int)));
 	connect(sustain, SIGNAL(valueChanged(int)), this, SLOT(setSustain(int)));
 
+	lattack = new QLabel("Attack",this);
+	lattack->setAlignment(Qt::AlignCenter);
+	ldecay = new QLabel("Decay",this);
+	ldecay->setAlignment(Qt::AlignCenter);
+	lrelease = new QLabel("Release",this);
+	lrelease->setAlignment(Qt::AlignCenter);
+	lsustain = new QLabel("Sustain",this);
+	lsustain->setAlignment(Qt::AlignCenter);
+
+	vattack = new QVBoxLayout;
+	vdecay = new QVBoxLayout;
+	vrelease = new QVBoxLayout;
+	vsustain = new QVBoxLayout;
+
 	wavelayout->addWidget(sinebutton);
 	wavelayout->addWidget(squarebutton);
 	wavelayout->addWidget(trianglebutton);
 	wavelayout->addWidget(sawbutton);
 	wholelayout->addLayout(wavelayout);
-	wholelayout->addWidget(attack);
-	wholelayout->addWidget(decay);
-	wholelayout->addWidget(release);
-	wholelayout->addWidget(sustain);
+
+	vattack->addWidget(lattack);
+	vattack->addWidget(attack);
+	wholelayout->addLayout(vattack);
+
+	vdecay->addWidget(ldecay);
+	vdecay->addWidget(decay);
+	wholelayout->addLayout(vdecay);
+
+	vrelease->addWidget(lrelease);
+	vrelease->addWidget(release);
+	wholelayout->addLayout(vrelease);
+
+	vsustain->addWidget(lsustain);
+	vsustain->addWidget(sustain);
+	wholelayout->addLayout(vsustain);
+
 	setLayout(wholelayout);
 }
 
