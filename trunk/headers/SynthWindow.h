@@ -50,6 +50,8 @@ class SynthWindow : public QWidget
 		QHBoxLayout *wholelayout;
 		wavetype wt;		
 		int a,d,r,s;
+		QLabel * lattack, *ldecay, *lrelease, *lsustain;
+		QVBoxLayout *vattack, *vdecay, *vrelease, *vsustain;
 };
 
 #endif
