@@ -16,7 +16,7 @@ class WaveForm:public QObject
 	friend class AudioThread;
 	friend class AudioBuffer;
 	public:
-		WaveForm(QString n, int f, wavetype, int aa = 500, int dd = 250, int ss = 2000, int rr = 0);
+		WaveForm(QString n, int f, wavetype, int aa = 500, int dd = 250, int ss = 75, int rr = 0);
 		WaveForm(QString n);
 		~WaveForm();
 
