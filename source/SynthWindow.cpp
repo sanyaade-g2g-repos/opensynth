@@ -23,11 +23,13 @@ SynthWindow::SynthWindow()
 	wavelayout = new QVBoxLayout;
 	wholelayout = new QHBoxLayout;
 
-	sinebutton = new QRadioButton("&Sine Wave", this);
-	sinebutton->setChecked(true);
-	squarebutton = new QRadioButton("S&quare Wave", this);
-	trianglebutton = new QRadioButton("&Triangle Wave", this);
-	sawbutton = new QRadioButton("Sa&w Wave", this);
+	sinebutton = new QRadioButton("&Sine", this);
+	squarebutton = new QRadioButton("S&quare", this);
+	trianglebutton = new QRadioButton("&Triangle", this);
+	sawbutton = new QRadioButton("Sa&w", this);
+
+	lwaves = new QLabel("Waveforms", this);
+	lwaves->setAlignment(Qt::AlignCenter);
 	
 	connect(sinebutton, SIGNAL(clicked()), this, SLOT(setSineWave()));
 	connect(squarebutton, SIGNAL(clicked()), this, SLOT(setSquareWave()));
@@ -55,6 +57,15 @@ SynthWindow::SynthWindow()
 	voctave->addWidget(oct3);
 	voctave->addWidget(oct4);
 
+	octgroup = new QButtonGroup;
+
+	octgroup->addButton(oct1);
+	octgroup->addButton(oct2);
+	octgroup->addButton(oct3);
+	octgroup->addButton(oct4);
+
+	sinebutton->setChecked(true);
+	
 	attack = new QDial(this);
 	attack->setNotchesVisible(true);
 	attack->setValue(a);
@@ -105,6 +116,7 @@ SynthWindow::SynthWindow()
 	vrelease = new QVBoxLayout;
 	vsustain = new QVBoxLayout;
 
+	wavelayout->addWidget(lwaves);
 	wavelayout->addWidget(sinebutton);
 	wavelayout->addWidget(squarebutton);
 	wavelayout->addWidget(trianglebutton);
