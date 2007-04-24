@@ -14,10 +14,10 @@ float freq(char pitch, int octave, int alter);
 SynthWindow::SynthWindow()
 {
 	wt = SIN;
-	a = 50;
-	d = 25;
+	a = 25;
+	d = 75;
 	r = 25;
-	s = 2000;
+	s = 75;
 	o = 3;
 
 	wavelayout = new QVBoxLayout;
@@ -87,15 +87,15 @@ SynthWindow::SynthWindow()
 	release->setMinimum(0);
 	sustain->setMinimum(0);
 
-	attack->setMaximum(750);
-	decay->setMaximum(750);
-	release->setMaximum(750);
-	sustain->setMaximum(3000);
+	attack->setMaximum(1000);
+	decay->setMaximum(1000);
+	release->setMaximum(1000);
+	sustain->setMaximum(100);
 
 	attack->setSingleStep(10);
 	decay->setSingleStep(10);
 	release->setSingleStep(10);
-	sustain->setSingleStep(100);
+	sustain->setSingleStep(5);
 
 	connect(attack, SIGNAL(valueChanged(int)), this, SLOT(setAttack(int)));
 	connect(decay, SIGNAL(valueChanged(int)), this, SLOT(setDecay(int)));

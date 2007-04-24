@@ -76,10 +76,10 @@ double WaveForm::nextSample(void)
 		tempvol = maxvol*val/a;
 	
 	else if( (val = envcount/50 - a) < d )
-		tempvol = (s - maxvol)*val/d + maxvol;
+		tempvol = ((s*maxvol / 100) - maxvol)*val/d + maxvol;
 	
 	else
-		{tempvol = s; }
+		tempvol = s * maxvol / 100; 
 
 	int returnindex = (index+1)%size;
 	double returnsample = sample[returnindex];
