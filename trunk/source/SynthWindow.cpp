@@ -225,7 +225,6 @@ SynthWindow::SynthWindow()
 	wholelayout->addLayout(vsustain);
 
 	setLayout(wholelayout);
-	cout << "reached end of SynthWindow Constructor" << endl;
 }
 
 void SynthWindow::setAttack(int aa) { a = aa; }
@@ -365,10 +364,101 @@ void SynthWindow::keyPressEvent( QKeyEvent *event )
 		case Qt::Key_Apostrophe:
 		ab.add(new WaveForm( "C,5,1", (int)(freq('C',o+2,1)), wt, a, d, s, r));
 		break;
+
+		// ----------------------------------- Start Upper Tier ---------------------//
 		
+		case Qt::Key_1:
+		ab.add(new WaveForm( "b,3,0", (int)(freq('B',o2,0)), wt2, a2, d2, s2, r2));
+		break;
+
 		case Qt::Key_Q:
 		ab.add(new WaveForm( "c,4,0", (int)(freq('C',o2+1,0)), wt2, a2, d2, s2, r2));
 		break;
+
+		case Qt::Key_2:
+		ab.add(new WaveForm( "c,4,1", (int)(freq('C',o2+1,1)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_W:
+		ab.add(new WaveForm( "d,4,0", (int)(freq('D',o2+1,0)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_3:
+		ab.add(new WaveForm( "d,4,1", (int)(freq('D',o2+1,1)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_E:
+		ab.add(new WaveForm( "e,4,0", (int)(freq('E',o2+1,0)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_R:
+		ab.add(new WaveForm( "f,4,0", (int)(freq('F',o2+1,0)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_5:
+		ab.add(new WaveForm( "f,4,1", (int)(freq('F',o2+1,1)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_T:
+		ab.add(new WaveForm( "g,4,0", (int)(freq('G',o2+1,0)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_6:
+		ab.add(new WaveForm( "g,4,1", (int)(freq('G',o2+1,1)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_Y:
+		ab.add(new WaveForm( "a,4,0", (int)(freq('A',o2+1,0)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_7:
+		ab.add(new WaveForm( "a,4,1", (int)(freq('A',o2+1,1)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_U:
+		ab.add(new WaveForm( "b,4,0", (int)(freq('B',o2+1,0)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_I:
+		ab.add(new WaveForm( "c,5,0", (int)(freq('C',o2+2,0)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_9:
+		ab.add(new WaveForm( "c,5,1", (int)(freq('C',o2+2,1)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_O:
+		ab.add(new WaveForm( "d,5,0", (int)(freq('D',o2+2,0)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_0:
+		ab.add(new WaveForm( "d,5,1", (int)(freq('D',o2+2,1)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_P:
+		ab.add(new WaveForm( "e,5,0", (int)(freq('E',o2+2,0)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_BracketLeft:
+		ab.add(new WaveForm( "f,5,0", (int)(freq('F',o2+2,0)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_Equal:
+		ab.add(new WaveForm( "f,5,1", (int)(freq('F',o2+2,1)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_BracketRight:
+		ab.add(new WaveForm( "g,5,0", (int)(freq('G',o2+2,0)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_Backspace:
+		ab.add(new WaveForm( "g,5,1", (int)(freq('G',o2+2,1)), wt2, a2, d2, s2, r2));
+		break;
+
+		case Qt::Key_Backslash:
+		ab.add(new WaveForm( "a,5,0", (int)(freq('A',o2+2,0)), wt2, a2, d2, s2, r2));
+		break;
+
 
 		default:
 		QWidget::keyPressEvent(event);
@@ -463,8 +553,98 @@ void SynthWindow::keyReleaseEvent( QKeyEvent *event )
 		ab.remove("C,5,1");
 		break;
 
+		//-------------------- Start First Tier Removals -------//
+
+		case Qt::Key_1:
+		ab.remove("b,3,0");
+		break;
+
 		case Qt::Key_Q:
 		ab.remove("c,4,0");
+		break;
+
+		case Qt::Key_2:
+		ab.remove("c,4,1");
+		break;
+
+		case Qt::Key_W:
+		ab.remove("d,4,0");
+		break;
+
+		case Qt::Key_3:
+		ab.remove("d,4,1");
+		break;
+
+		case Qt::Key_E:
+		ab.remove("e,4,0");
+		break;
+
+		case Qt::Key_R:
+		ab.remove("f,4,0");
+		break;
+
+		case Qt::Key_5:
+		ab.remove("f,4,1");
+		break;
+
+		case Qt::Key_T:
+		ab.remove("g,4,0");
+		break;
+
+		case Qt::Key_6:
+		ab.remove("g,4,1");
+		break;
+
+		case Qt::Key_Y:
+		ab.remove("a,4,0");
+		break;
+
+		case Qt::Key_7:
+		ab.remove("a,4,1");
+		break;
+
+		case Qt::Key_U:
+		ab.remove("b,4,0");
+		break;
+
+		case Qt::Key_I:
+		ab.remove("c,5,0");
+		break;
+
+		case Qt::Key_9:
+		ab.remove("c,5,1");
+		break;
+
+		case Qt::Key_O:
+		ab.remove("d,5,0");
+		break;
+
+		case Qt::Key_0:
+		ab.remove("d,5,1");
+		break;
+
+		case Qt::Key_P:
+		ab.remove("e,5,0");
+		break;
+
+		case Qt::Key_BracketLeft:
+		ab.remove("f,5,0");
+		break;
+
+		case Qt::Key_Equal:
+		ab.remove("f,5,1");
+		break;
+
+		case Qt::Key_BracketRight:
+		ab.remove("g,5,0");
+		break;
+
+		case Qt::Key_Backspace:
+		ab.remove("g,5,1");
+		break;
+
+		case Qt::Key_Backslash:
+		ab.remove("a,5,0");
 		break;
 
 		default:
