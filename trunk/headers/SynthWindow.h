@@ -59,8 +59,9 @@ class SynthWindow : public QWidget
 		QRadioButton *oct2;
 		QRadioButton *oct3;
 		QRadioButton *oct4;
+		QButtonGroup *octgroup;
 		QVBoxLayout *voctave;
-		QLabel *loctave;
+		QLabel *loctave, *lwaves;
 		QLabel * lattack, *ldecay, *lrelease, *lsustain;
 		QVBoxLayout *vattack, *vdecay, *vrelease, *vsustain;
 };
