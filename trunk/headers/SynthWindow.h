@@ -29,6 +29,12 @@ class SynthWindow : public QWidget
 		void setSustain(int);
 		void setOctave1(int);
 		void setWave1(int);
+		void setAttack2(int);
+		void setDecay2(int);
+		void setRelease2(int);
+		void setSustain2(int);
+		void setOctave2(int);
+		void setWave2(int);
 
 	protected:
 		void keyPressEvent( QKeyEvent *event );
@@ -41,17 +47,34 @@ class SynthWindow : public QWidget
 		QRadioButton *trianglebutton;
 		QRadioButton *sawbutton;
 		QButtonGroup *wavegroup;
+
+		QRadioButton *sinebutton2;
+		QRadioButton *squarebutton2;
+		QRadioButton *trianglebutton2;
+		QRadioButton *sawbutton2;
+		QButtonGroup *wavegroup2;
+
 		QDial *attack;
 		QDial *decay;
 		QDial *sustain;
 		QDial *release;
+		QDial *attack2;
+		QDial *decay2;
+		QDial *sustain2;
+		QDial *release2;
+
 		QVBoxLayout *wavelayout;
 		QHBoxLayout *wholelayout;
-		wavetype wt;		
+
+		wavetype wt, wt2;		
 		int a,d,r,s;
-		int o; //octave
+		int a2,d2,r2,s2;
+		int o, o2; //octave
+
 		QRadioButton *oct1, *oct2, *oct3, *oct4;
 		QButtonGroup *octgroup;
+		QRadioButton *oct12, *oct22, *oct32, *oct42;
+		QButtonGroup *octgroup2;
 		QVBoxLayout *voctave;
 		QLabel *loctave, *lwaves;
 		QLabel * lattack, *ldecay, *lrelease, *lsustain;
