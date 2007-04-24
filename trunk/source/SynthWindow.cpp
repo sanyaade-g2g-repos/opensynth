@@ -18,6 +18,7 @@ SynthWindow::SynthWindow()
 	d = 25;
 	r = 25;
 	s = 2000;
+	o = 3;
 
 	wavelayout = new QVBoxLayout;
 	wholelayout = new QHBoxLayout;
@@ -32,6 +33,27 @@ SynthWindow::SynthWindow()
 	connect(squarebutton, SIGNAL(clicked()), this, SLOT(setSquareWave()));
 	connect(trianglebutton, SIGNAL(clicked()), this, SLOT(setTriangleWave()));
 	connect(sawbutton, SIGNAL(clicked()), this, SLOT(setSawWave()));
+
+	voctave = new QVBoxLayout;
+	oct1 = new QRadioButton("1", this);
+	oct2 = new QRadioButton("2", this);
+	oct3 = new QRadioButton("3", this);
+	oct3->setChecked(true);
+	oct4 = new QRadioButton("4", this);
+
+	loctave = new QLabel("Octave", this);
+	loctave->setAlignment(Qt::AlignCenter);
+
+	connect(oct1, SIGNAL(clicked()), this, SLOT(setOctave1()));
+	connect(oct2, SIGNAL(clicked()), this, SLOT(setOctave2()));
+	connect(oct3, SIGNAL(clicked()), this, SLOT(setOctave3()));
+	connect(oct4, SIGNAL(clicked()), this, SLOT(setOctave4()));
+
+	voctave->addWidget(loctave);
+	voctave->addWidget(oct1);
+	voctave->addWidget(oct2);
+	voctave->addWidget(oct3);
+	voctave->addWidget(oct4);
 
 	attack = new QDial(this);
 	attack->setNotchesVisible(true);
@@ -89,6 +111,8 @@ SynthWindow::SynthWindow()
 	wavelayout->addWidget(sawbutton);
 	wholelayout->addLayout(wavelayout);
 
+	wholelayout->addLayout(voctave);
+
 	vattack->addWidget(lattack);
 	vattack->addWidget(attack);
 	wholelayout->addLayout(vattack);
@@ -118,6 +142,11 @@ void SynthWindow::setDecay(int dd) { d = dd; }
 void SynthWindow::setRelease(int rr) { r = rr; }
 void SynthWindow::setSustain(int ss) { s = ss; }
 
+void SynthWindow::setOctave1() { o = 1; }
+void SynthWindow::setOctave2() { o = 2; }
+void SynthWindow::setOctave3() { o = 3; }
+void SynthWindow::setOctave4() { o = 4; }
+
 void SynthWindow::keyPressEvent( QKeyEvent *event )
 {
 	if( !event->isAutoRepeat() ) {
@@ -125,103 +154,88 @@ void SynthWindow::keyPressEvent( QKeyEvent *event )
 	int key = event->key();
 
 	if( event->nativeScanCode() == 62 )
-		ab.add(new WaveForm( "D,5,0", (int)(freq('D',5,0)), wt, a, d, s, r));
+		ab.add(new WaveForm( "D,5,0", (int)(freq('D',o+2,0)), wt, a, d, s, r));
 	else if( event->nativeScanCode() == 50 )
-		ab.add(new WaveForm( "G,3,0", (int)(freq('G',3,0)), wt, a, d, s, r));
+		ab.add(new WaveForm( "G,3,0", (int)(freq('G',o,0)), wt, a, d, s, r));
 
 	switch (key)
 	{
 		case Qt::Key_A:
-//		cout << " Ab ";
-		ab.add(new WaveForm( "A,3,-1", (int)(freq('A',3,-1)), wt, a, d, s, r));
+		ab.add(new WaveForm( "A,3,-1", (int)(freq('A',o,-1)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_Z:
-//		cout << " A ";
-		ab.add(new WaveForm( "A,3,0", (int)(freq('A',3,0)), wt, a, d, s, r));
+		ab.add(new WaveForm( "A,3,0", (int)(freq('A',o,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_S:
-//		cout << " Bb ";
-		ab.add(new WaveForm( "B,3,-1", (int)(freq('B',3,-1)), wt, a, d, s, r));
+		ab.add(new WaveForm( "B,3,-1", (int)(freq('B',o,-1)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_X:
-//		cout << " B ";
-		ab.add(new WaveForm( "B,3,0", (int)(freq('B',3,0)), wt, a, d, s, r));
+		ab.add(new WaveForm( "B,3,0", (int)(freq('B',o,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_C:
-//		cout << " C ";
-		ab.add(new WaveForm( "C,4,0", (int)(freq('C',4,0)), wt, a, d, s, r));
+		ab.add(new WaveForm( "C,4,0", (int)(freq('C',o+1,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_F:
-//		cout << " C# ";
-		ab.add(new WaveForm( "C,4,1", (int)(freq('C',4,1)), wt, a, d, s, r));
+		ab.add(new WaveForm( "C,4,1", (int)(freq('C',o+1,1)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_V:
-//		cout << " D ";
-		ab.add(new WaveForm( "D,4,0", (int)(freq('D',4,0)), wt, a, d, s, r));
+		ab.add(new WaveForm( "D,4,0", (int)(freq('D',o+1,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_G:
-//		cout << " D# ";
-		ab.add(new WaveForm( "D,4,1", (int)(freq('D',4,1)), wt, a, d, s, r));
+		ab.add(new WaveForm( "D,4,1", (int)(freq('D',o+1,1)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_B:
-//		cout << " E ";
-		ab.add(new WaveForm( "E,4,0", (int)(freq('E',4,0)), wt, a, d, s, r));
+		ab.add(new WaveForm( "E,4,0", (int)(freq('E',o+1,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_N:
-//		cout << " F ";
-		ab.add(new WaveForm( "F,4,0", (int)(freq('F',4,0)), wt, a, d, s, r));
+		ab.add(new WaveForm( "F,4,0", (int)(freq('F',o+1,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_J:
-//		cout << " F# ";
-		ab.add(new WaveForm( "F,4,1", (int)(freq('F',4,1)), wt, a, d, s, r));
+		ab.add(new WaveForm( "F,4,1", (int)(freq('F',o+1,1)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_M:
-//		cout << " G ";
-		ab.add(new WaveForm( "G,4,0", (int)(freq('G',4,0)), wt, a, d, s, r));
+		ab.add(new WaveForm( "G,4,0", (int)(freq('G',o+1,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_K:
-//		cout << " G# ";
-		ab.add(new WaveForm( "G,4,1", (int)(freq('G',4,1)), wt, a, d, s, r));
+		ab.add(new WaveForm( "G,4,1", (int)(freq('G',o+1,1)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_Comma:
-//		cout << " A ";
-		ab.add(new WaveForm( "A,4,0", (int)(freq('A',4,0)), wt, a, d, s, r));
+		ab.add(new WaveForm( "A,4,0", (int)(freq('A',o+1,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_L:
-		ab.add(new WaveForm( "A,4,1", (int)(freq('A',4,1)), wt, a, d, s, r));
+		ab.add(new WaveForm( "A,4,1", (int)(freq('A',o+1,1)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_Period:
-		ab.add(new WaveForm( "B,4,0", (int)(freq('B',4,0)), wt, a, d, s, r));
+		ab.add(new WaveForm( "B,4,0", (int)(freq('B',o+1,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_Slash:
-		ab.add(new WaveForm( "C,5,0", (int)(freq('C',5,0)), wt, a, d, s, r));
+		ab.add(new WaveForm( "C,5,0", (int)(freq('C',o+2,0)), wt, a, d, s, r));
 		break;
 
 		case Qt::Key_Apostrophe:
-		ab.add(new WaveForm( "C,5,1", (int)(freq('C',5,1)), wt, a, d, s, r));
+		ab.add(new WaveForm( "C,5,1", (int)(freq('C',o+2,1)), wt, a, d, s, r));
 		break;
 		
 		default:
 		QWidget::keyPressEvent(event);
 
 	}
-//	cout.flush();
 
 	}
 }
@@ -231,7 +245,6 @@ void SynthWindow::keyReleaseEvent( QKeyEvent *event )
 	int key = event->key();
 
 	if( !event->isAutoRepeat() ) {
-	//	cout << "key release" << endl;
 
 	if( event->nativeScanCode() == 62 )
 		ab.remove( "D,5,0");
@@ -241,72 +254,58 @@ void SynthWindow::keyReleaseEvent( QKeyEvent *event )
 	switch ( key )
 	{
 		case Qt::Key_A:
-//		cout << " Ab ";
 		ab.remove("A,3,-1");
 		break;
 
 		case Qt::Key_Z:
-//		cout << " A ";
 		ab.remove("A,3,0");
 		break;
 
 		case Qt::Key_S:
-//		cout << " Bb ";
 		ab.remove("B,3,-1");
 		break;
 
 		case Qt::Key_X:
-//		cout << " B ";
 		ab.remove("B,3,0");
 		break;
 
 		case Qt::Key_C:
-//		cout << " C ";
 		ab.remove("C,4,0");
 		break;
 
 		case Qt::Key_F:
-//		cout << " C# ";
 		ab.remove("C,4,1");
 		break;
 
 		case Qt::Key_V:
-//		cout << " D ";
 		ab.remove("D,4,0");
 		break;
 
 		case Qt::Key_G:
-//		cout << " D# ";
 		ab.remove("D,4,1");
 		break;
 
 		case Qt::Key_B:
-//		cout << " E ";
 		ab.remove("E,4,0");
 		break;
 
 		case Qt::Key_N:
-//		cout << " F ";
 		ab.remove("F,4,0");
 		break;
 
 		case Qt::Key_J:
-//		cout << " F# ";
 		ab.remove("F,4,1");
 		break;
 
 		case Qt::Key_M:
-//		cout << " G ";
 		ab.remove("G,4,0");
 		break;
 
 		case Qt::Key_K:
-//		cout << " G# ";
 		ab.remove("G,4,1");
 		break;
 
 		case Qt::Key_Comma:
-//		cout << " A ";
 		ab.remove("A,4,0");
 		break;
 
@@ -329,7 +328,6 @@ void SynthWindow::keyReleaseEvent( QKeyEvent *event )
 		default:
 		QWidget::keyPressEvent(event);
 	}
-//	cout.flush();
 
 	}
 }
