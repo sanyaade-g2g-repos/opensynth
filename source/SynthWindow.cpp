@@ -28,14 +28,17 @@ SynthWindow::SynthWindow()
 	trianglebutton = new QRadioButton("&Triangle", this);
 	sawbutton = new QRadioButton("Sa&w", this);
 
+	wavegroup = new QButtonGroup;
+	wavegroup->addButton(sinebutton, 1);
+	wavegroup->addButton(squarebutton, 2);
+	wavegroup->addButton(trianglebutton, 3);
+	wavegroup->addButton(sawbutton, 4);
+
 	lwaves = new QLabel("Waveforms", this);
 	lwaves->setAlignment(Qt::AlignCenter);
-	
-	connect(sinebutton, SIGNAL(clicked()), this, SLOT(setSineWave()));
-	connect(squarebutton, SIGNAL(clicked()), this, SLOT(setSquareWave()));
-	connect(trianglebutton, SIGNAL(clicked()), this, SLOT(setTriangleWave()));
-	connect(sawbutton, SIGNAL(clicked()), this, SLOT(setSawWave()));
 
+	connect(wavegroup, SIGNAL(buttonClicked(int)), this, SLOT(setWave1(int)));
+	
 	voctave = new QVBoxLayout;
 	oct1 = new QRadioButton("1", this);
 	oct2 = new QRadioButton("2", this);
@@ -46,11 +49,6 @@ SynthWindow::SynthWindow()
 	loctave = new QLabel("Octave", this);
 	loctave->setAlignment(Qt::AlignCenter);
 
-	connect(oct1, SIGNAL(clicked()), this, SLOT(setOctave1()));
-	connect(oct2, SIGNAL(clicked()), this, SLOT(setOctave2()));
-	connect(oct3, SIGNAL(clicked()), this, SLOT(setOctave3()));
-	connect(oct4, SIGNAL(clicked()), this, SLOT(setOctave4()));
-
 	voctave->addWidget(loctave);
 	voctave->addWidget(oct1);
 	voctave->addWidget(oct2);
@@ -59,10 +57,12 @@ SynthWindow::SynthWindow()
 
 	octgroup = new QButtonGroup;
 
-	octgroup->addButton(oct1);
-	octgroup->addButton(oct2);
-	octgroup->addButton(oct3);
-	octgroup->addButton(oct4);
+	octgroup->addButton(oct1, 1);
+	octgroup->addButton(oct2, 2);
+	octgroup->addButton(oct3, 3);
+	octgroup->addButton(oct4, 4);
+
+	connect( octgroup, SIGNAL(buttonClicked(int)), this, SLOT(setOctave1(int)));
 
 	sinebutton->setChecked(true);
 	
@@ -144,20 +144,32 @@ SynthWindow::SynthWindow()
 	setLayout(wholelayout);
 }
 
-void SynthWindow::setSineWave() { wt = SIN; }
-void SynthWindow::setSquareWave() { wt = SQR; }
-void SynthWindow::setTriangleWave() { wt = TRI; }
-void SynthWindow::setSawWave() { wt = SAW; }
-
 void SynthWindow::setAttack(int aa) { a = aa; }
 void SynthWindow::setDecay(int dd) { d = dd; }
 void SynthWindow::setRelease(int rr) { r = rr; }
 void SynthWindow::setSustain(int ss) { s = ss; }
 
-void SynthWindow::setOctave1() { o = 1; }
-void SynthWindow::setOctave2() { o = 2; }
-void SynthWindow::setOctave3() { o = 3; }
-void SynthWindow::setOctave4() { o = 4; }
+void SynthWindow::setOctave1(int oo) { o = oo; }
+
+void SynthWindow::setWave1(int ww)
+{
+	switch(ww) {
+		case 1:
+			wt = SIN;
+			break;
+		case 2:
+			wt = SQR;
+			break;
+		case 3:
+			wt = TRI;
+			break;
+		case 4:
+			wt = SAW;
+			break;
+		default:
+			wt = SIN;
+	}
+}
 
 void SynthWindow::keyPressEvent( QKeyEvent *event )
 {
