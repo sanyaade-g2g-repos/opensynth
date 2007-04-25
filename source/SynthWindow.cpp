@@ -86,14 +86,14 @@ SynthWindow::SynthWindow()
 	connect( octgroup2, SIGNAL(buttonClicked(int)), this, SLOT(setOctave2(int)));
 
 	voctave->addWidget(loctave);
-	voctave->addWidget(oct1);
-	voctave->addWidget(oct2);
-	voctave->addWidget(oct3);
-	voctave->addWidget(oct4);
 	voctave->addWidget(oct12);
 	voctave->addWidget(oct22);
 	voctave->addWidget(oct32);
 	voctave->addWidget(oct42);
+	voctave->addWidget(oct1);
+	voctave->addWidget(oct2);
+	voctave->addWidget(oct3);
+	voctave->addWidget(oct4);
 
 	//----------------- Set Default Selections ----------------------//
 
@@ -191,37 +191,37 @@ SynthWindow::SynthWindow()
 	vsustain = new QVBoxLayout;
 
 	wavelayout->addWidget(lwaves);
-	wavelayout->addWidget(sinebutton);
-	wavelayout->addWidget(squarebutton);
-	wavelayout->addWidget(trianglebutton);
-	wavelayout->addWidget(sawbutton);
 	wavelayout->addWidget(sinebutton2);
 	wavelayout->addWidget(squarebutton2);
 	wavelayout->addWidget(trianglebutton2);
 	wavelayout->addWidget(sawbutton2);
+	wavelayout->addWidget(sinebutton);
+	wavelayout->addWidget(squarebutton);
+	wavelayout->addWidget(trianglebutton);
+	wavelayout->addWidget(sawbutton);
 
 	wholelayout->addLayout(wavelayout);
 
 	wholelayout->addLayout(voctave);
 
 	vattack->addWidget(lattack);
-	vattack->addWidget(attack);
 	vattack->addWidget(attack2);
+	vattack->addWidget(attack);
 	wholelayout->addLayout(vattack);
 
 	vdecay->addWidget(ldecay);
-	vdecay->addWidget(decay);
 	vdecay->addWidget(decay2);
+	vdecay->addWidget(decay);
 	wholelayout->addLayout(vdecay);
 
 	vrelease->addWidget(lrelease);
-	vrelease->addWidget(release);
 	vrelease->addWidget(release2);
+	vrelease->addWidget(release);
 	wholelayout->addLayout(vrelease);
 
 	vsustain->addWidget(lsustain);
-	vsustain->addWidget(sustain);
 	vsustain->addWidget(sustain2);
+	vsustain->addWidget(sustain);
 	wholelayout->addLayout(vsustain);
 
 	setLayout(wholelayout);
