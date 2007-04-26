@@ -80,6 +80,7 @@ void AudioThread::run()
 	}
 
 	close(out);
+	cout << "exiting audio thread" << endl;
 	exit();
 }
 
