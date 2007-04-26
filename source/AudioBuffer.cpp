@@ -7,6 +7,7 @@
  */
 #include "AudioBuffer.h"
 #include <iostream>
+#include <unistd.h>
 using namespace std;
 
 /**  \brief Constructor initializes new AudioThread
@@ -33,6 +34,8 @@ AudioBuffer::~AudioBuffer()
 {
 	emit closePlay();
 	playthread->exit();
+	//wait for while loop to break
+	sleep(1);
 	delete playthread;
 }
 
