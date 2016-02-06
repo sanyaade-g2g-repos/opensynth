@@ -1,0 +1,1 @@
+For practice with C++ and Qt4.2, as well as a desire to better understand the working of synthesizers, I've embarked on making this rinky-dink virtual analog synth.  It is currently written for Linux.  No guarantees are made as to the quality or correctness of this software.
